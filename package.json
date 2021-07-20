@@ -12,6 +12,7 @@
     "@bem-react/classnames": "^1.3.9",
     "compute-scroll-into-view": "^1.0.14",
     "date-fns": "^2.17.0",
+    "imask": "^6.1.0",
     "react-textarea-autosize": "^7.1.2",
     "react-transition-group": "^4.4.1",
     "tslib": "^2.1.0"

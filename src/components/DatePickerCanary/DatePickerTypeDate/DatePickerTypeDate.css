@@ -1,0 +1,6 @@
+.DatePickerTypeDate {
+  &-Calendar {
+    padding: var(--space-l);
+    box-shadow: var(--shadow-layer);
+  }
+}

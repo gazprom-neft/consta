@@ -1,0 +1,69 @@
+.DatePickerCalendar {
+  --transition-spase: var(--space-2xs);
+  padding: var(--space-l);
+  opacity: 0;
+  box-shadow: var(--shadow-layer);
+  transform: translateY(var(--transition-spase));
+
+  &_isMobile {
+    opacity: 1;
+  }
+
+  &_isMobile.Modal-Window {
+    min-width: auto;
+  }
+
+  &_form {
+    &_default {
+      border-radius: var(--control-radius);
+    }
+
+    &_brick {
+      border-radius: 0;
+    }
+
+    &_round {
+      border-radius: var(--space-l);
+    }
+  }
+
+  &_animate {
+    &_appear,
+    &_appearActive,
+    &_appearDone,
+    &_enter,
+    &_enterActive,
+    &_enterDone,
+    &_exit,
+    &_exitActive,
+    &_exitDone {
+      transition: 0.2s ease;
+      transition-property: opacity, transform;
+    }
+
+    &_appear,
+    &_enter {
+      opacity: 0;
+      transform: translateY(var(--transition-spase));
+    }
+
+    &_enterActive,
+    &_appearActive,
+    &_appearDone,
+    &_enterDone {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    &_exit {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    &_exitActive,
+    &_exitDone {
+      opacity: 0;
+      transform: translateY(var(--transition-spase));
+    }
+  }
+}

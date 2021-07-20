@@ -181,7 +181,7 @@ export const TextField = React.forwardRef<HTMLDivElement, TextFieldProps>((props
     required,
     tabIndex,
     name,
-    'id': id ? id.toString() : '',
+    'id': id ? id.toString() : undefined,
     'aria-label': ariaLabel,
   };
 

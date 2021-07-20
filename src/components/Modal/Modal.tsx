@@ -1,11 +1,13 @@
 import './Modal.css';
 
-import React, { useEffect, useRef } from 'react';
+import React, { forwardRef, useEffect, useRef } from 'react';
 import { CSSTransition } from 'react-transition-group';
 
 import { useClickOutside } from '../../hooks/useClickOutside/useClickOutside';
+import { useForkRef } from '../../hooks/useForkRef/useForkRef';
 import { cn } from '../../utils/bem';
 import { cnForCssTransition } from '../../utils/cnForCssTransition';
+import { PropsWithHTMLAttributesAndRef } from '../../utils/types/PropsWithHTMLAttributes';
 import { PortalWithTheme, usePortalContext } from '../PortalWithTheme/PortalWithTheme';
 import { useTheme } from '../Theme/Theme';
 
@@ -17,21 +19,25 @@ const modalPropPosition = ['center', 'top'] as const;
 type ModalPropPosition = typeof modalPropPosition[number];
 const modalPropPositionDefault: ModalPropPosition = modalPropPosition[0];
 
-type ModalProps = {
-  isOpen?: boolean;
-  onClose?: () => void;
-  onOpen?: () => void;
-  hasOverlay?: boolean;
-  onOverlayClick?: (event: MouseEvent) => void;
-  onClickOutside?: (event: MouseEvent) => void;
-  className?: string;
-  rootClassName?: string;
-  width?: ModalPropWidth;
-  position?: ModalPropPosition;
-  children?: React.ReactNode;
-  container?: HTMLDivElement | undefined;
-  refsForExcludeClickOutside?: React.RefObject<HTMLElement>[];
-};
+type ModalProps = PropsWithHTMLAttributesAndRef<
+  {
+    isOpen?: boolean;
+    onClose?: () => void;
+    onOpen?: () => void;
+    hasOverlay?: boolean;
+    onOverlayClick?: (event: MouseEvent) => void;
+    onClickOutside?: (event: MouseEvent) => void;
+    rootClassName?: string;
+    width?: ModalPropWidth;
+    position?: ModalPropPosition;
+    children?: React.ReactNode;
+    container?: HTMLDivElement | undefined;
+    refsForExcludeClickOutside?: React.RefObject<HTMLElement>[];
+  },
+  HTMLDivElement
+>;
+
+type ModalComponent = (props: ModalProps) => React.ReactElement | null;
 
 const cnModal = cn('Modal');
 
@@ -55,7 +61,7 @@ const ContextConsumer: React.FC<{
   return <>{children}</>;
 };
 
-export const Modal: React.FC<ModalProps> = (props) => {
+export const Modal: ModalComponent = forwardRef((props, ref) => {
   const {
     isOpen,
     onClose,
@@ -73,7 +79,7 @@ export const Modal: React.FC<ModalProps> = (props) => {
     ...rest
   } = props;
 
-  const ref = useRef<HTMLDivElement | null>(null);
+  const refModal = useRef<HTMLDivElement | null>(null);
   const { theme } = useTheme();
 
   useEffect(() => {
@@ -98,10 +104,14 @@ export const Modal: React.FC<ModalProps> = (props) => {
         className={cnModal(null, [rootClassName])}
       >
         {hasOverlay && <div className={cnModal('Overlay')} aria-label="Overlay" />}
-        <div className={cnModal('Window', { width, position }, [className])} ref={ref} {...rest}>
+        <div
+          className={cnModal('Window', { width, position }, [className])}
+          ref={useForkRef([ref, refModal])}
+          {...rest}
+        >
           <ContextConsumer
             onClickOutside={onClickOutside || onOverlayClick}
-            ignoreClicksInsideRefs={[...(refsForExcludeClickOutside || []), ref]}
+            ignoreClicksInsideRefs={[...(refsForExcludeClickOutside || []), refModal]}
           >
             {children}
           </ContextConsumer>
@@ -109,4 +119,4 @@ export const Modal: React.FC<ModalProps> = (props) => {
       </PortalWithTheme>
     </CSSTransition>
   );
-};
+});

@@ -16,7 +16,7 @@ import {
 import eachDayOfInterval from 'date-fns/eachDayOfInterval';
 
 import { range } from '../../utils/array';
-import { isDateRange, isOnlyOneDateInRange } from '../../utils/date';
+import { getStartAndEndDate, isDateRange, isOnlyOneDateInRange } from '../../utils/date';
 import { isDefined } from '../../utils/type-guards';
 import { DateRange } from '../../utils/types/Date';
 import { PropsWithHTMLAttributesAndRef } from '../../utils/types/PropsWithHTMLAttributes';
@@ -40,7 +40,7 @@ export type CalendarPropOnChange<TYPE extends CalendarPropType> = (props: {
   e: React.MouseEvent<HTMLDivElement>;
 }) => void;
 
-export type CalendarProps<TYPE extends CalendarPropType> = PropsWithHTMLAttributesAndRef<
+export type CalendarProps<TYPE extends CalendarPropType = 'date'> = PropsWithHTMLAttributesAndRef<
   {
     currentVisibleDate?: Date;
     type?: TYPE;
@@ -51,11 +51,13 @@ export type CalendarProps<TYPE extends CalendarPropType> = PropsWithHTMLAttribut
     events?: Date[];
     view?: CalendarPropView;
     locale?: Locale;
+    children?: never;
+    onChangeCurrentVisibleDate?: (date: Date) => void;
   },
   HTMLDivElement
 >;
 
-export type CalendarComponent = <TYPE extends CalendarPropType>(
+export type CalendarComponent = <TYPE extends CalendarPropType = 'date'>(
   props: CalendarProps<TYPE>,
 ) => React.ReactElement | null;
 
@@ -67,12 +69,6 @@ const isEqualDate = (date1: Date, date2: Date): boolean => date1.getTime() === d
 
 const isEqualDay = (date1: Date, date2: Date): boolean =>
   isEqualDate(startOfDay(date1), startOfDay(date2));
-
-export const dateComparer = (a?: Date, b?: Date): number =>
-  (a?.getTime() ?? 0) - (b?.getTime() ?? 0);
-
-export const getStartAndEndDate = (date1: Date, date2: Date): Date[] =>
-  [date1, date2].sort(dateComparer);
 
 export const isDateSelected = ({ date, value }: { date: Date; value?: Date }): boolean => {
   return value ? isSameDay(value, date) : false;
@@ -321,6 +317,7 @@ type GetCurrentVisibleDateProps = {
   minDate: Date | undefined;
   maxDate: Date | undefined;
   value: Date | DateRange | undefined;
+  onChangeCurrentVisibleDate?: (date: Date) => void;
 };
 
 const getCurrentVisibleDate = ({
@@ -376,6 +373,8 @@ export const useCurrentVisibleDate = (props: GetCurrentVisibleDateProps) => {
   const state = useState(currentVisibleDate);
 
   useEffect(() => state[1](currentVisibleDate), [currentVisibleDate.getTime()]);
+
+  useEffect(() => props.onChangeCurrentVisibleDate?.(state[0]), [state[0].getTime()]);
 
   return state;
 };
