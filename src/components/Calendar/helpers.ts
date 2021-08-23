@@ -16,7 +16,7 @@ import {
 import eachDayOfInterval from 'date-fns/eachDayOfInterval';
 
 import { range } from '../../utils/array';
-import { isDateRange, isOnlyOneDateInRange } from '../../utils/date';
+import { isDateRange, isInMinMaxDade, isOnlyOneDateInRange } from '../../utils/date';
 import { isDefined } from '../../utils/type-guards';
 import { DateRange } from '../../utils/types/Date';
 import { PropsWithHTMLAttributesAndRef } from '../../utils/types/PropsWithHTMLAttributes';
@@ -148,29 +148,6 @@ const hasEvent = (date: Date, events: Date[]): boolean =>
 
 const isToday = (date: Date): boolean => isEqualDay(new Date(), date);
 
-const isWithInIntervalMinMaxDade = (date: Date, minDate?: Date, maxDate?: Date): boolean => {
-  const minDateTime = minDate?.getTime();
-  const maxDateTime = maxDate?.getTime();
-
-  if (minDate && maxDate && minDateTime && maxDateTime) {
-    return minDateTime < maxDateTime
-      ? isWithinInterval(date, { start: minDate, end: maxDate })
-      : false;
-  }
-
-  const dateTime = date.getTime();
-
-  if (minDateTime && !maxDateTime) {
-    return minDateTime < dateTime;
-  }
-
-  if (!minDateTime && maxDateTime) {
-    return maxDateTime > dateTime;
-  }
-
-  return true;
-};
-
 export const getDaysOfMonth = (props: {
   date: Date;
   locale: Locale;
@@ -208,7 +185,7 @@ export const getDaysOfMonth = (props: {
         range: Array.isArray(value) && isDateInRange(date, value),
         event: events && hasEvent(date, events),
         current: isToday(date),
-        disabled: !isWithInIntervalMinMaxDade(date, minDate, maxDate),
+        disabled: !isInMinMaxDade(date, minDate, maxDate),
       };
     }
 
@@ -230,7 +207,7 @@ type HandleSelectDate = (props: { value: Date; e: React.MouseEvent<HTMLDivElemen
 
 export function getHandleSelectDate(params: GetHandleSelectDateProps): HandleSelectDate {
   return (props) => {
-    if (!isWithInIntervalMinMaxDade(props.value, params.minDate, params.maxDate)) {
+    if (!isInMinMaxDade(props.value, params.minDate, params.maxDate)) {
       return;
     }
     if (typeof params.onChange === 'function') {

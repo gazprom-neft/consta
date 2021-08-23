@@ -42,3 +42,4 @@ export * from './CalendarViewSlider/CalendarViewSlider';
 export * from './CalendarViewTwoMonths/CalendarViewTwoMonths';
 export * from './Calendar10Years/Calendar10Years';
 export * from './CalendarYear/CalendarYear';
+export * from './CalendarTime/CalendarTime';

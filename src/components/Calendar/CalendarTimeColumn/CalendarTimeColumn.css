@@ -1,0 +1,25 @@
+.CalendarTimeColumn {
+  display: flex;
+  flex-direction: column;
+
+  &-Label {
+    flex: none;
+  }
+
+  &-ScrollWrapper {
+    overflow-y: scroll;
+    flex: 1;
+    -ms-overflow-style: none;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      width: 0;
+      height: 0;
+    }
+  }
+
+  &-FakeElemet {
+    height: calc(100% - var(--calendar-cell-height));
+  }
+}

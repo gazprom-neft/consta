@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { boolean, date, select } from '@storybook/addon-knobs';
-import { addDays, endOfYear, Locale, startOfWeek, startOfYear } from 'date-fns';
+import { addDays, endOfYear, Locale, set, startOfWeek, startOfYear } from 'date-fns';
 import enUSLocale from 'date-fns/locale/en-US';
 import esLocale from 'date-fns/locale/es';
 import ruLocale from 'date-fns/locale/ru';
@@ -8,7 +8,7 @@ import zhCNLocale from 'date-fns/locale/zh-CN';
 
 import { getSizeByMap } from '../../../utils/getSizeByMap';
 import { createMetadata, createStory } from '../../../utils/storybook';
-import { Calendar, Calendar10Years, CalendarYear } from '../Calendar';
+import { Calendar, Calendar10Years, CalendarTime, CalendarYear } from '../Calendar';
 import {
   calendarPropType,
   calendarPropTypeDefault,
@@ -107,6 +107,27 @@ export const CalendarYearStory = createStory(
   ),
   {
     name: 'CalendarYear',
+  },
+);
+
+const minDate = set(new Date(), { hours: 2, minutes: 59, seconds: 59 });
+const maxDate = set(new Date(), { hours: 18, minutes: 30, seconds: 20 });
+
+export const CalendarTimeStory = createStory(
+  () => {
+    const [value, setValue] = useState<Date | undefined>(undefined);
+
+    return (
+      <CalendarTime
+        value={value}
+        onChange={({ value }) => setValue(value)}
+        minDate={minDate}
+        maxDate={maxDate}
+      />
+    );
+  },
+  {
+    name: 'CalendarTime',
   },
 );
 

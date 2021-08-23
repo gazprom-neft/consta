@@ -17,12 +17,12 @@ export type CalendarCellProps = PropsWithJsxAttributes<
 
 export const cnCalendarCell = cn('CalendarCell');
 
-export const CalendarCell: React.FC<CalendarCellProps> = (props) => {
+export const CalendarCell = React.forwardRef<HTMLDivElement, CalendarCellProps>((props, ref) => {
   const { range, children, className, ...otherProps } = props;
 
   return (
-    <div {...otherProps} className={cnCalendarCell({ range }, [className])}>
+    <div {...otherProps} ref={ref} className={cnCalendarCell({ range }, [className])}>
       {children}
     </div>
   );
-};
+});

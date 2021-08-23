@@ -1,0 +1,18 @@
+.CalendarTime {
+  --calendar-item-width: var(--control-height-s);
+  --calendar-item-height: var(--control-height-s);
+  --calendar-cell-vertical-gap: var(--space-3xs);
+  --calendar-cell-horisontal-gap: var(--space-3xs);
+  --calendar-cell-width: calc(
+    var(--calendar-item-width) + (var(--calendar-cell-horisontal-gap) * 2)
+  );
+  --calendar-cell-height: calc(
+    var(--calendar-item-height) + (var(--calendar-cell-vertical-gap) * 2)
+  );
+  --calendar-grid-columns: 1;
+  --calendar-grid-row-gap: 0;
+  display: flex;
+
+  /* это временно, чтоб видеть результат скрола */
+  max-height: 400px;
+}
