@@ -1,0 +1,94 @@
+/* 
+--calendar-item-width
+--calendar-item-height
+
+задаются сверху
+*/
+
+.CalendarItem {
+  --item-bg-color: transparent;
+  --item-bg-color-hover: transparent;
+  --item-border-color: var(--color-control-bg-primary);
+  --item-border-color-hover: var(--color-control-bg-primary-hover);
+  --item-event-color: var(--color-control-bg-primary);
+  --item-event-color-hover: var(--color-control-bg-primary-hover);
+  --item-text-color: var(--color-typo-primary);
+  --item-text-color-hover: var(--color-control-bg-primary-hover);
+  --bg-color: var(--item-bg-color);
+  --event-color: var(--item-event-color);
+  --border-color: var(--item-border-color);
+  --text-color: var(--item-text-color);
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: var(--calendar-item-width);
+  height: var(--calendar-item-height);
+  color: var(--text-color);
+  background: var(--bg-color);
+  border-radius: calc(var(--calendar-item-height) / 2);
+  font-size: var(--size-text-s);
+  line-height: var(--calendar-item-height);
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+
+  &:hover {
+    --bg-color: var(--item-bg-color-hover);
+    --event-color: var(--item-event-color-hover);
+    --border-color: var(--item-border-color-hover);
+    --text-color: var(--item-text-color-hover);
+  }
+
+  &_selected {
+    --item-bg-color: var(--color-control-bg-primary);
+    --item-bg-color-hover: var(--color-control-bg-primary-hover);
+    --item-border-color: transparent;
+    --item-border-color-hover: transparent;
+    --item-event-color: var(--color-control-typo-primary);
+    --item-event-color-hover: var(--color-control-typo-primary);
+    --item-text-color: var(--color-typo-primary);
+    --item-text-color-hover: var(--color-typo-primary);
+  }
+
+  &:not(&_disabled) {
+    cursor: pointer;
+  }
+
+  &_disabled {
+    --item-bg-color: transparent;
+    --item-bg-color-hover: transparent;
+    --item-border-color: var(--color-control-bg-primary);
+    --item-border-color-hover: var(--color-control-bg-primary);
+    --item-event-color: var(--color-control-typo-disable);
+    --item-event-color-hover: var(--color-control-typo-disable);
+    --item-text-color: var(--color-control-typo-disable);
+    --item-text-color-hover: var(--color-control-typo-disable);
+  }
+
+  &_selected.CalendarItem_disabled {
+    --item-bg-color: var(--color-control-bg-disable);
+    --item-bg-color-hover: var(--color-control-bg-disable);
+    --item-border-color: transparent;
+    --item-border-color-hover: transparent;
+    --item-event-color: var(--color-control-typo-disable);
+    --item-event-color-hover: var(--color-control-typo-disable);
+    --item-text-color: var(--color-control-typo-disable);
+    --item-text-color-hover: var(--color-control-typo-disable);
+  }
+
+  &_event {
+    &::before {
+      content: '';
+      position: absolute;
+      bottom: var(--space-2xs);
+      width: var(--space-2xs);
+      height: var(--space-2xs);
+      background: var(--event-color);
+      border-radius: 50%;
+      transition: background 0.2s;
+    }
+  }
+
+  &_current {
+    box-shadow: inset 0 0 0 1.3px var(--border-color);
+  }
+}

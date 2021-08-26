@@ -1,4 +1,4 @@
-import './CalendarСell.css';
+import './CalendarCell.css';
 
 import React from 'react';
 
@@ -15,7 +15,7 @@ export type CalendarCellProps = PropsWithJsxAttributes<
   'div'
 >;
 
-export const cnCalendarCell = cn('CalendarСell');
+export const cnCalendarCell = cn('CalendarCell');
 
 export const CalendarCell: React.FC<CalendarCellProps> = (props) => {
   const { range, children, className, ...otherProps } = props;

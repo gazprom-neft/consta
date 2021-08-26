@@ -31,8 +31,8 @@ export const Calendar: CalendarComponent = React.forwardRef((props, ref) => {
   return <ViewComponent {...otherProps} ref={ref} className={cnCalendar(null, [className])} />;
 });
 
-export * from './CalendarСell/CalendarСell';
-export * from './CalendarDay/CalendarDay';
+export * from './CalendarCell/CalendarCell';
+export * from './CalendarItem/CalendarItem';
 export * from './CalendarMonth/CalendarMonth';
 export * from './CalendarMonthLabel/CalendarMonthLabel';
 export * from './CalendarMonthToggler/CalendarMonthToggler';
@@ -40,3 +40,5 @@ export * from './CalendarSlider/CalendarSlider';
 export * from './CalendarViewOneMonth/CalendarViewOneMonth';
 export * from './CalendarViewSlider/CalendarViewSlider';
 export * from './CalendarViewTwoMonths/CalendarViewTwoMonths';
+export * from './Calendar10Years/Calendar10Years';
+export * from './CalendarYear/CalendarYear';

@@ -1,0 +1,14 @@
+/* 
+--calendar-grid-columns 
+--calendar-cell-width
+--calendar-grid-row-gap
+
+задаются сверху
+*/
+
+.CalendarGrid {
+  display: grid;
+  grid-template-columns: repeat(var(--calendar-grid-columns), var(--calendar-cell-width));
+  grid-row-gap: var(--calendar-grid-row-gap);
+  justify-content: start;
+}

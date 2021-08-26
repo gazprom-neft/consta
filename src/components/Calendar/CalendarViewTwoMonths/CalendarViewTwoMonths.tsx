@@ -8,7 +8,6 @@ import { cn } from '../../../utils/bem';
 import { CalendarMonth } from '../CalendarMonth/CalendarMonth';
 import { CalendarMonthToggler } from '../CalendarMonthToggler/CalendarMonthToggler';
 import {
-  calendarPropTypeDefault,
   CalendarViewComponent,
   getDaysOfMonth,
   getDaysOfWeek,
@@ -22,7 +21,6 @@ export const cnCalendarViewTwoMonths = cn('CalendarViewTwoMonths');
 export const CalendarViewTwoMonths: CalendarViewComponent = React.forwardRef((props, ref) => {
   const {
     className,
-    type = calendarPropTypeDefault,
     minDate,
     maxDate,
     value,
@@ -40,7 +38,7 @@ export const CalendarViewTwoMonths: CalendarViewComponent = React.forwardRef((pr
     value,
   });
 
-  const handleSelectDate = getHandleSelectDate({ type, minDate, maxDate, value, onChange });
+  const handleSelectDate = getHandleSelectDate({ minDate, maxDate, value, onChange });
 
   const daysOfMonth = getDaysOfMonth({
     date: currentVisibleDate,

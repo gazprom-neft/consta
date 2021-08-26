@@ -1,0 +1,52 @@
+/* 
+--calendar-cell-width
+--calendar-cell-height
+--calendar-cell-vertical-gap
+--calendar-cell-horisontal-ga
+
+задаются сверху
+*/
+
+.CalendarCell {
+  --bg-color: var(--color-control-bg-ghost);
+  --visible-height: calc(var(--calendar-cell-height) - (var(--calendar-cell-horisontal-gap) * 2));
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: var(--calendar-cell-width);
+  height: var(--calendar-cell-height);
+
+  &_range {
+    &::before {
+      content: '';
+      position: absolute;
+      top: var(--calendar-cell-vertical-gap);
+      right: 0;
+      left: 0;
+      bottom: var(--calendar-cell-vertical-gap);
+      background: var(--bg-color);
+    }
+
+    &_first::before,
+    &_last::before {
+      content: '';
+      position: absolute;
+      top: var(--calendar-cell-vertical-gap);
+      bottom: var(--calendar-cell-vertical-gap);
+      background: var(--bg-color);
+    }
+
+    &_first::before {
+      right: 0;
+      left: var(--calendar-cell-horisontal-gap);
+      border-radius: var(--visible-height) 0 0 var(--visible-height);
+    }
+
+    &_last::before {
+      right: var(--calendar-cell-horisontal-gap);
+      left: 0;
+      border-radius: 0 var(--visible-height) var(--visible-height) 0;
+    }
+  }
+}

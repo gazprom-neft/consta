@@ -9,7 +9,6 @@ import { CalendarMonth } from '../CalendarMonth/CalendarMonth';
 import { CalendarMonthLabel } from '../CalendarMonthLabel/CalendarMonthLabel';
 import { CalendarSlider } from '../CalendarSlider/CalendarSlider';
 import {
-  calendarPropTypeDefault,
   CalendarViewComponent,
   getDaysOfMonth,
   getDaysOfWeek,
@@ -23,7 +22,6 @@ export const cnCalendarViewSlider = cn('CalendarViewSlider');
 export const CalendarViewSlider: CalendarViewComponent = React.forwardRef((props, ref) => {
   const {
     className,
-    type = calendarPropTypeDefault,
     minDate,
     maxDate,
     value,
@@ -41,7 +39,7 @@ export const CalendarViewSlider: CalendarViewComponent = React.forwardRef((props
     value,
   });
 
-  const handleSelectDate = getHandleSelectDate({ type, minDate, maxDate, value, onChange });
+  const handleSelectDate = getHandleSelectDate({ minDate, maxDate, value, onChange });
   const daysOfMonth = getDaysOfMonth({
     date: currentVisibleDate,
     handleDayClick: handleSelectDate,

@@ -1,14 +1,14 @@
-.CalendarMonth {
-  --calendar-item-width: var(--control-height-s);
+.Calendar10Years {
+  --calendar-item-width: 50px;
   --calendar-item-height: var(--control-height-s);
   --calendar-cell-vertical-gap: var(--space-3xs);
-  --calendar-cell-horisontal-gap: var(--space-3xs);
+  --calendar-cell-horisontal-gap: 6.5px;
   --calendar-cell-width: calc(
     var(--calendar-item-width) + (var(--calendar-cell-horisontal-gap) * 2)
   );
   --calendar-cell-height: calc(
     var(--calendar-item-height) + (var(--calendar-cell-vertical-gap) * 2)
   );
-  --calendar-grid-columns: 7;
-  --calendar-grid-row-gap: 0;
+  --calendar-grid-columns: 4;
+  --calendar-grid-row-gap: 50px;
 }

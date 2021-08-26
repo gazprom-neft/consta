@@ -5,7 +5,9 @@ import {
   CalendarExampleCurrent,
 } from './examples/CalendarExampleView/CalendarExampleView';
 
-import { CalendarExampleDateMin } from './examples/CalendarExamplePeriod/CalendarExamplePeriod';
+import { CalendarExampleDateMin } from './examples/CalendarExampleDateMin/CalendarExampleDateMin';
+
+import { CalendarExamplePeriod } from './examples/CalendarExamplePeriod/CalendarExamplePeriod';
 
 import { CalendarExampleLocale } from './examples/CalendarExampleLocale/CalendarExampleLocale';
 
@@ -76,14 +78,51 @@ import ruLocale from 'date-fns/locale/ru';
 
 Выбранная дата передаётся в свойстве `value`.
 
-Пользователь может выбрать только одну дату или указать период, за это отвечает свойство `type`.
+Пользователь может выбрать одну дату или указать период.
 
-- выбрать одну дату — `'date'` (отображается по умолчанию),
-- указать период — `'date-range'`.
+> Свойство `value` описан в [CalendarPropValue](#свойства)
 
-> Свойство `value` принимает разные типы в зависимости от значения свойства `type`. Набор типов описан в [CalendarPropValue](#свойства)
+> Событие выбора даты описан в [CalendarPropOnChange](#свойства)
 
-> Событие выбора даты тоже зависит от свойства `type`. Варианты описаны в [CalendarPropOnChange](#свойства)
+### Пример выбора периода дат
+
+```tsx
+export const CalendarExamplePeriod = () => {
+  const [rangeValue, setRangeValue] = useState<[Date?, Date?]>([]);
+
+  const handleChange = ({ value }: { value: Date }) => {
+    const [startDate, endDate] = rangeValue;
+
+    if (!startDate && !endDate) {
+      setRangeValue([value, undefined]);
+      return;
+    }
+
+    if (startDate && startDate.getTime() === value.getTime()) {
+      setRangeValue([endDate, undefined]);
+      return;
+    }
+
+    if (endDate && endDate.getTime() === value.getTime()) {
+      setRangeValue([startDate, undefined]);
+      return;
+    }
+
+    if (startDate) {
+      setRangeValue(startDate > value ? [value, startDate] : [startDate, value]);
+      return;
+    }
+
+    if (endDate) {
+      setRangeValue(endDate > value ? [value, endDate] : [endDate, value]);
+    }
+  };
+
+  return <Calendar value={rangeValue} onChange={handleChange} />;
+};
+```
+
+<CalendarExamplePeriod />
 
 ### Ограничение выбора
 
@@ -141,14 +180,10 @@ const CalendarExampleLocale = () => {
 import { Locale } from 'date-fns';
 import ruLocale from 'date-fns/locale/ru';
 
-export type CalendarPropType = 'date' | 'date-range';
+export type CalendarPropValue = Date | [Date?, Date?];
 
-export type CalendarPropValue<TYPE extends CalendarPropType> = TYPE extends 'date'
-  ? Date
-  : [Date?, Date?];
-
-export type CalendarPropOnChange<TYPE extends CalendarPropType> = (props: {
-  value: CalendarPropValue<TYPE>;
+export type CalendarPropOnChange = (props: {
+  value: CalendarPropValue;
   e: React.MouseEvent<HTMLDivElement>;
 }) => void;
 ```
@@ -156,7 +191,7 @@ export type CalendarPropOnChange<TYPE extends CalendarPropType> = (props: {
 | Свойство                                         | Тип или варианты значения           | По умолчанию | Описание                                                          |
 | ------------------------------------------------ | ----------------------------------- | ------------ | ----------------------------------------------------------------- |
 | [`view?`](#внешний-вид)                          | `'oneMonth', 'twoMonths', 'slider'` | `'oneMonth'` | Вид календаря                                                     |
-| [`type?`](#выбор-даты)                           | `'date'`, `'date-range'`            | `'date'`     | Тип календаря                                                     |
+| [`type?`](#выбор-даты)                           | `'date'`                            | `'date'`     | Тип календаря                                                     |
 | [`value?`](#выбор-даты)                          | `CalendarPropValue`                 | -            | Выбранная дата или диапазон дат                                   |
 | [`minDate?`](#ограничение-выбора)                | `Date`                              | -            | Ограничение выбора дат по меньшей дате                            |
 | [`maxDate?`](#ограничение-выбора)                | `Date`                              | -            | Ограничение выбора дат по большей дате                            |

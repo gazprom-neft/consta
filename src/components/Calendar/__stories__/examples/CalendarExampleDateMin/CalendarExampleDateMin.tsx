@@ -1,17 +1,15 @@
 import React from 'react';
-import { addDays, startOfWeek } from 'date-fns';
+import { startOfWeek } from 'date-fns';
 import ruLocale from 'date-fns/locale/ru';
 
 import { cnDocsDecorator } from '../../../../../uiKit/components/DocsDecorator/DocsDecorator';
 import { StoryBookExample } from '../../../../../uiKit/components/StoryBookExample/StoryBookExample';
 import { Calendar } from '../../../Calendar';
 
-const events = [startOfWeek(new Date(), { locale: ruLocale }), new Date(), addDays(new Date(), 2)];
-
-export const CalendarExampleEvents = () => {
+export const CalendarExampleDateMin = () => {
   return (
     <StoryBookExample className={cnDocsDecorator('Section')}>
-      <Calendar events={events} />
+      <Calendar minDate={startOfWeek(new Date(), { locale: ruLocale })} maxDate={new Date()} />
     </StoryBookExample>
   );
 };

@@ -21,31 +21,29 @@ import { isDefined } from '../../utils/type-guards';
 import { DateRange } from '../../utils/types/Date';
 import { PropsWithHTMLAttributesAndRef } from '../../utils/types/PropsWithHTMLAttributes';
 
-import { CalendarCellPropRange } from './CalendarСell/CalendarСell';
+import { CalendarCellPropRange } from './CalendarCell/CalendarCell';
 
 export const calendarPropView = ['oneMonth', 'twoMonths', 'slider'] as const;
 export type CalendarPropView = typeof calendarPropView[number];
 export const calendarPropViewDefault: CalendarPropView = calendarPropView[0];
 
-export const calendarPropType = ['date', 'date-range'] as const;
+export const calendarPropType = ['date'] as const;
 export type CalendarPropType = typeof calendarPropType[number];
 export const calendarPropTypeDefault: CalendarPropType = calendarPropType[0];
 
-export type CalendarPropValue<TYPE extends CalendarPropType> = TYPE extends 'date'
-  ? Date
-  : DateRange;
+export type CalendarPropValue = Date | DateRange;
 
-export type CalendarPropOnChange<TYPE extends CalendarPropType> = (props: {
-  value: CalendarPropValue<TYPE>;
+export type CalendarPropOnChange = (props: {
+  value: Date;
   e: React.MouseEvent<HTMLDivElement>;
 }) => void;
 
-export type CalendarProps<TYPE extends CalendarPropType> = PropsWithHTMLAttributesAndRef<
+export type CalendarProps = PropsWithHTMLAttributesAndRef<
   {
     currentVisibleDate?: Date;
-    type?: TYPE;
-    value?: CalendarPropValue<TYPE>;
-    onChange?: CalendarPropOnChange<TYPE>;
+    type?: CalendarPropType;
+    value?: CalendarPropValue;
+    onChange?: CalendarPropOnChange;
     minDate?: Date;
     maxDate?: Date;
     events?: Date[];
@@ -55,12 +53,10 @@ export type CalendarProps<TYPE extends CalendarPropType> = PropsWithHTMLAttribut
   HTMLDivElement
 >;
 
-export type CalendarComponent = <TYPE extends CalendarPropType>(
-  props: CalendarProps<TYPE>,
-) => React.ReactElement | null;
+export type CalendarComponent = (props: CalendarProps) => React.ReactElement | null;
 
-export type CalendarViewComponent = <TYPE extends CalendarPropType>(
-  props: Omit<CalendarProps<TYPE>, 'view'>,
+export type CalendarViewComponent = (
+  props: Omit<CalendarProps, 'view'>,
 ) => React.ReactElement | null;
 
 const isEqualDate = (date1: Date, date2: Date): boolean => date1.getTime() === date2.getTime();
@@ -186,11 +182,11 @@ export const getDaysOfMonth = (props: {
 }): {
   disabled?: boolean;
   onClick?: React.MouseEventHandler<HTMLDivElement>;
-  number: string;
+  label: string;
   selected?: boolean;
   range?: CalendarCellPropRange;
   event?: boolean;
-  today?: boolean;
+  current?: boolean;
 }[] => {
   const { date, locale, handleDayClick, value, events, minDate, maxDate } = props;
   const currentMonth = date.getMonth();
@@ -200,104 +196,47 @@ export const getDaysOfMonth = (props: {
 
   return range(diffDays).map((index) => {
     const date = addDays(startDate, index);
-    const number = format(date, 'd');
+    const label = format(date, 'd');
 
     if (date.getMonth() === currentMonth) {
       return {
-        number,
+        label,
         onClick: handleDayClick
           ? (e: React.MouseEvent<HTMLDivElement>) => handleDayClick({ e, value: date })
           : undefined,
         selected: isSelected({ date, value }),
         range: Array.isArray(value) && isDateInRange(date, value),
         event: events && hasEvent(date, events),
-        today: isToday(date),
+        current: isToday(date),
         disabled: !isWithInIntervalMinMaxDade(date, minDate, maxDate),
       };
     }
 
     return {
-      number,
+      label,
       disabled: true,
     };
   });
 };
 
-type GetHandleSelectDateProps<TYPE extends CalendarPropType> = {
-  type: TYPE;
-  value?: CalendarPropValue<TYPE>;
-  onChange?: CalendarPropOnChange<TYPE>;
+type GetHandleSelectDateProps = {
+  value?: CalendarPropValue;
+  onChange?: CalendarPropOnChange;
   minDate?: Date;
   maxDate?: Date;
 };
 
 type HandleSelectDate = (props: { value: Date; e: React.MouseEvent<HTMLDivElement> }) => void;
 
-const isDateRangeParams = (
-  params: GetHandleSelectDateProps<CalendarPropType>,
-): params is GetHandleSelectDateProps<'date-range'> => {
-  return params.type === calendarPropType[1];
-};
-
-const isNotDateRangeParams = (
-  params: GetHandleSelectDateProps<CalendarPropType>,
-): params is GetHandleSelectDateProps<'date'> => {
-  return params.type === calendarPropType[0];
-};
-
-export function getHandleSelectDate<TYPE extends CalendarPropType>(
-  params: GetHandleSelectDateProps<TYPE>,
-): HandleSelectDate {
-  if (isDateRangeParams(params)) {
-    const currentValue: DateRange = params.value || [undefined, undefined];
-
-    return ({ value: date, e }) => {
-      if (
-        params.minDate &&
-        params.maxDate &&
-        !isWithinInterval(date, { start: params.minDate, end: params.maxDate })
-      ) {
-        return;
-      }
-
-      if (!isOnlyOneDateInRange(currentValue) && typeof params.onChange === 'function') {
-        return params.onChange({ e, value: [date, undefined] });
-      }
-
-      const [startDate, endDate] = currentValue;
-
-      if (
-        (isDefined(startDate) && isEqualDay(startDate, date)) ||
-        (isDefined(endDate) && isEqualDay(endDate, date))
-      ) {
-        return;
-      }
-
-      if (isDefined(startDate) && typeof params.onChange === 'function') {
-        return params.onChange({
-          e,
-          value: startDate > date ? [date, startDate] : [startDate, date],
-        });
-      }
-
-      if (isDefined(endDate) && typeof params.onChange === 'function') {
-        return params.onChange({ e, value: endDate > date ? [date, endDate] : [endDate, date] });
-      }
-    };
-  }
-
-  if (isNotDateRangeParams(params)) {
-    return (props) => {
-      if (!isWithInIntervalMinMaxDade(props.value, params.minDate, params.maxDate)) {
-        return;
-      }
-      if (typeof params.onChange === 'function') {
-        return params.onChange(props);
-      }
-    };
-  }
-
-  return () => undefined;
+export function getHandleSelectDate(params: GetHandleSelectDateProps): HandleSelectDate {
+  return (props) => {
+    if (!isWithInIntervalMinMaxDade(props.value, params.minDate, params.maxDate)) {
+      return;
+    }
+    if (typeof params.onChange === 'function') {
+      return params.onChange(props);
+    }
+  };
 }
 
 export const getMonthTitle = (date: Date, locale: Locale): string => {
