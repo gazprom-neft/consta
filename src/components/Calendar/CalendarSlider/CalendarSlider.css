@@ -1,9 +1,14 @@
+/*
+задается сверху
+--item-width
+--parent-width
+*/
+
 .CalendarSlider {
-  --month-width: calc((var(--calendar-cell-width) * 14 - var(--control-height-m) * 2) / 13);
-  --year-width: calc(var(--month-width) * 12);
   --slider-height: var(--control-height-m);
+  --slider-width: calc(var(--calendar-cell-width) * 14 + var(--space-m));
   display: flex;
-  width: calc(var(--calendar-cell-width) * 14 + var(--space-m));
+  width: var(--slider-width);
 
   &-Slider {
     position: relative;
@@ -24,16 +29,16 @@
     height: 100%;
   }
 
-  &-Year {
+  &-Parent {
     position: absolute;
     display: flex;
-    width: var(--year-width);
+    width: var(--parent-width);
     height: 100%;
     transition: transform 0.5s;
 
     &_position {
       &_0 {
-        transform: translateX(calc(var(--year-width) * -1));
+        transform: translateX(calc(var(--parent-width) * -1));
       }
 
       &_1 {
@@ -41,38 +46,47 @@
       }
 
       &_2 {
-        transform: translateX(calc(var(--year-width)));
+        transform: translateX(calc(var(--parent-width)));
       }
 
       &_3 {
-        transform: translateX(calc(var(--year-width) * 2));
+        transform: translateX(calc(var(--parent-width) * 2));
       }
     }
 
-    &_selected::before {
-      content: '';
-      position: absolute;
-      left: var(--value-offset);
-      bottom: 0;
-      width: var(--value-width);
-      height: var(--space-3xs);
-      background-color: var(--color-control-bg-primary);
-      pointer-events: none;
+    &_selected {
+      /* --fix исправляет разрыв между полосками */
+      --fix: calc(0);
+
+      &::before {
+        content: '';
+        position: absolute;
+        left: calc(var(--value-offset) - var(--fix));
+        bottom: 0;
+        width: calc(var(--value-width) + var(--fix));
+        height: var(--space-3xs);
+        background-color: var(--color-control-bg-primary);
+        pointer-events: none;
+      }
+
+      & + .CalendarSlider-Parent_selected {
+        --fix: 1px;
+      }
     }
   }
 
-  &-YearLabel {
+  &-ParentLabel {
     position: absolute;
     right: 0;
     transition: transform 0.5s, color 0.2s;
 
     &_position {
       &_0 {
-        transform: translateX(calc(var(--month-width) * -13));
+        transform: translateX(calc(var(--item-width) * -13));
       }
 
       &_1 {
-        transform: translateX(calc(var(--year-width) / -2));
+        transform: translateX(calc((var(--parent-width) + var(--item-width)) / -2 + 50%));
       }
 
       &_2 {
@@ -80,15 +94,15 @@
       }
 
       &_3 {
-        transform: translateX(calc(var(--year-width)));
+        transform: translateX(calc(var(--parent-width)));
       }
     }
   }
 
-  &-Month {
+  &-Item {
     display: flex;
     align-items: flex-end;
-    width: var(--month-width);
+    width: var(--item-width);
     height: 100%;
     margin-bottom: var(--space-3xs);
     background: transparent;
@@ -97,19 +111,19 @@
     cursor: pointer;
   }
 
-  &-MonthLabel {
-    width: var(--month-width);
+  &-ItemLabel {
+    width: var(--item-width);
     height: var(--space-m);
     margin-bottom: var(--space-3xs);
   }
 
   &-Selector {
     position: absolute;
-    width: calc(var(--month-width) * 2);
+    width: calc(var(--item-width) * 2);
     height: var(--slider-height);
     background-color: var(--color-control-bg-ghost);
     border-radius: var(--control-radius);
     transition: transform 0.3s;
-    transform: translateX(var(--selector-offset));
+    transform: translateX(calc(var(--item-width) * var(--current-item)));
   }
 }

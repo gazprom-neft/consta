@@ -37,7 +37,7 @@ export const CalendarExamplePeriod = () => {
 
   return (
     <StoryBookExample className={cnDocsDecorator('Section')}>
-      <Calendar value={rangeValue} onChange={handleChange} />
+      <Calendar value={rangeValue} onChange={handleChange} view="slider" />
     </StoryBookExample>
   );
 };

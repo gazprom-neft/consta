@@ -7,7 +7,7 @@ import ruLocale from 'date-fns/locale/ru';
 import { cn } from '../../../utils/bem';
 import { CalendarMonth } from '../CalendarMonth/CalendarMonth';
 import { CalendarMonthLabel } from '../CalendarMonthLabel/CalendarMonthLabel';
-import { CalendarSlider } from '../CalendarSlider/CalendarSlider';
+import { CalendarYearSlider } from '../CalendarYearSlider/CalendarYearSlider';
 import {
   CalendarViewComponent,
   getDaysOfMonth,
@@ -64,7 +64,7 @@ export const CalendarViewSlider: CalendarViewComponent = React.forwardRef((props
 
   return (
     <div {...otherProps} ref={ref} className={cnCalendarViewSlider({}, [className])}>
-      <CalendarSlider
+      <CalendarYearSlider
         className={cnCalendarViewSlider('Slider')}
         currentVisibleDate={currentVisibleDate}
         onChange={setCurrentVisibleDate}

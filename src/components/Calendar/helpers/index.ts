@@ -15,13 +15,12 @@ import {
 } from 'date-fns';
 import eachDayOfInterval from 'date-fns/eachDayOfInterval';
 
-import { range } from '../../utils/array';
-import { isDateRange, isInMinMaxDade, isOnlyOneDateInRange } from '../../utils/date';
-import { isDefined } from '../../utils/type-guards';
-import { DateRange } from '../../utils/types/Date';
-import { PropsWithHTMLAttributesAndRef } from '../../utils/types/PropsWithHTMLAttributes';
-
-import { CalendarCellPropRange } from './CalendarCell/CalendarCell';
+import { range } from '../../../utils/array';
+import { isDateRange, isInMinMaxDade, isOnlyOneDateInRange } from '../../../utils/date';
+import { isDefined } from '../../../utils/type-guards';
+import { DateRange } from '../../../utils/types/Date';
+import { PropsWithHTMLAttributesAndRef } from '../../../utils/types/PropsWithHTMLAttributes';
+import { CalendarCellPropRange } from '../CalendarCell/CalendarCell';
 
 export const calendarPropView = ['oneMonth', 'twoMonths', 'slider'] as const;
 export type CalendarPropView = typeof calendarPropView[number];

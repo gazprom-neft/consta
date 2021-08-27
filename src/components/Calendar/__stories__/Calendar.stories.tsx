@@ -8,7 +8,15 @@ import zhCNLocale from 'date-fns/locale/zh-CN';
 
 import { getSizeByMap } from '../../../utils/getSizeByMap';
 import { createMetadata, createStory } from '../../../utils/storybook';
-import { Calendar, Calendar10Years, CalendarTime, CalendarYear } from '../Calendar';
+import {
+  Calendar,
+  Calendar10Years,
+  Calendar10YearSlider,
+  Calendar100YearSlider,
+  CalendarTime,
+  CalendarYear,
+  CalendarYearSlider,
+} from '../Calendar';
 import {
   calendarPropType,
   calendarPropTypeDefault,
@@ -128,6 +136,59 @@ export const CalendarTimeStory = createStory(
   },
   {
     name: 'CalendarTime',
+  },
+);
+
+export const CalendarYearSliderStory = createStory(
+  () => {
+    const [value, setValue] = useState<Date>(new Date());
+
+    return (
+      <CalendarYearSlider
+        currentVisibleDate={value}
+        onChange={(date) => setValue(date)}
+        value={[new Date(), addDays(new Date(), 200)]}
+      />
+    );
+  },
+  {
+    name: 'CalendarYearSlider',
+  },
+);
+
+export const Calendar10YearSliderStory = createStory(
+  () => {
+    const [value, setValue] = useState<Date>(new Date('2010'));
+
+    return (
+      <Calendar10YearSlider
+        currentVisibleDate={value}
+        onChange={(date) => setValue(date)}
+        value={[new Date(2014, 7, 1), new Date(2031, 6)]}
+      />
+    );
+  },
+  {
+    name: 'Calendar10YearSlider',
+  },
+);
+
+export const Calendar100YearSliderStory = createStory(
+  () => {
+    const [value, setValue] = useState<Date>(new Date('0110'));
+
+    console.log(value);
+
+    return (
+      <Calendar100YearSlider
+        currentVisibleDate={value}
+        onChange={(date) => setValue(date)}
+        value={[new Date(-80, 5), new Date(2071, 5)]}
+      />
+    );
+  },
+  {
+    name: 'Calendar100YearSlider',
   },
 );
 

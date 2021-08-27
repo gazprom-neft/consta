@@ -1,0 +1,5 @@
+.CalendarYearSlider {
+  --calendar-cell-width: calc(var(--control-height-s) + (var(--space-3xs) * 2));
+  --item-width: calc((var(--calendar-cell-width) * 14 - var(--control-height-m) * 2) / 13);
+  --parent-width: calc(var(--item-width) * 12);
+}

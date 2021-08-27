@@ -1,8 +1,8 @@
 .Calendar10Years {
-  --calendar-item-width: 50px;
+  --calendar-item-width: calc(var(--control-height-s) * 7 / var(--calendar-grid-columns));
   --calendar-item-height: var(--control-height-s);
   --calendar-cell-vertical-gap: var(--space-3xs);
-  --calendar-cell-horisontal-gap: 6.5px;
+  --calendar-cell-horisontal-gap: calc(var(--space-3xs) * 7 / var(--calendar-grid-columns));
   --calendar-cell-width: calc(
     var(--calendar-item-width) + (var(--calendar-cell-horisontal-gap) * 2)
   );
@@ -10,5 +10,5 @@
     var(--calendar-item-height) + (var(--calendar-cell-vertical-gap) * 2)
   );
   --calendar-grid-columns: 4;
-  --calendar-grid-row-gap: 50px;
+  --calendar-grid-row-gap: calc(var(--control-height-s) * 5 / 3);
 }
