@@ -37,12 +37,18 @@ export type CalendarPropOnChange = (props: {
   e: React.MouseEvent<HTMLDivElement>;
 }) => void;
 
+export type CalendarPropOnChangeRange = (props: {
+  value: DateRange;
+  e: React.MouseEvent<HTMLDivElement>;
+}) => void;
+
 export type CalendarProps = PropsWithHTMLAttributesAndRef<
   {
     currentVisibleDate?: Date;
     type?: CalendarPropType;
     value?: CalendarPropValue;
     onChange?: CalendarPropOnChange;
+    onChangeRange?: CalendarPropOnChangeRange;
     minDate?: Date;
     maxDate?: Date;
     events?: Date[];
@@ -198,19 +204,65 @@ export const getDaysOfMonth = (props: {
 type GetHandleSelectDateProps = {
   value?: CalendarPropValue;
   onChange?: CalendarPropOnChange;
+  onChangeRange?: CalendarPropOnChangeRange;
   minDate?: Date;
   maxDate?: Date;
 };
 
 type HandleSelectDate = (props: { value: Date; e: React.MouseEvent<HTMLDivElement> }) => void;
 
-export function getHandleSelectDate(params: GetHandleSelectDateProps): HandleSelectDate {
-  return (props) => {
-    if (!isInMinMaxDade(props.value, params.minDate, params.maxDate)) {
+export function getHandleSelectDate(props: GetHandleSelectDateProps): HandleSelectDate {
+  return (callbackProps) => {
+    if (!isInMinMaxDade(callbackProps.value, props.minDate, props.maxDate)) {
       return;
     }
-    if (typeof params.onChange === 'function') {
-      return params.onChange(props);
+
+    if (typeof props.onChange === 'function') {
+      props.onChange(callbackProps);
+    }
+
+    if (typeof props.onChangeRange === 'function') {
+      const currentValue: DateRange = (Array.isArray(props.value)
+        ? props.value
+        : [props.value, undefined]) || [undefined, undefined];
+
+      const [startDate, endDate] = currentValue;
+
+      if (isDefined(startDate) && isEqualDay(startDate, callbackProps.value)) {
+        return props.onChangeRange({
+          e: callbackProps.e,
+          value: [endDate, undefined],
+        });
+      }
+
+      if (isDefined(endDate) && isEqualDay(endDate, callbackProps.value)) {
+        return props.onChangeRange({
+          e: callbackProps.e,
+          value: [startDate, undefined],
+        });
+      }
+
+      if (isDefined(startDate)) {
+        return props.onChangeRange({
+          e: callbackProps.e,
+          value:
+            startDate > callbackProps.value
+              ? [callbackProps.value, startDate]
+              : [startDate, callbackProps.value],
+        });
+      }
+
+      if (isDefined(endDate)) {
+        return props.onChangeRange({
+          e: callbackProps.e,
+          value:
+            endDate > callbackProps.value
+              ? [callbackProps.value, endDate]
+              : [endDate, callbackProps.value],
+        });
+      }
+
+      props.onChangeRange({ e: callbackProps.e, value: [callbackProps.value, undefined] });
     }
   };
 }
@@ -225,6 +277,7 @@ export const getMouthLabelWithYear = (date: Date, locale: Locale): string => {
 
 export const getDaysOfWeek = (locale: Locale): string[] => {
   const now = new Date();
+
   return eachDayOfInterval({
     start: startOfWeek(now, { locale }),
     end: endOfWeek(now, { locale }),

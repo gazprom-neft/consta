@@ -80,49 +80,29 @@ import ruLocale from 'date-fns/locale/ru';
 
 Пользователь может выбрать одну дату или указать период.
 
-> Свойство `value` описан в [CalendarPropValue](#свойства)
+Для полчения события выбора даты существует свойства `onChange` и `onChangeRange`
 
-> Событие выбора даты описан в [CalendarPropOnChange](#свойства)
+> Свойство `value` описано в [CalendarPropValue](#свойства)
 
-### Пример выбора периода дат
+> Событие выбора даты описано в [CalendarPropOnChange](#свойства) и в [CalendarPropOnChangeRange](#свойства)
+
+### Пример с выбором периода
+
+<CalendarExamplePeriod />
 
 ```tsx
 export const CalendarExamplePeriod = () => {
   const [rangeValue, setRangeValue] = useState<[Date?, Date?]>([]);
 
-  const handleChange = ({ value }: { value: Date }) => {
-    const [startDate, endDate] = rangeValue;
-
-    if (!startDate && !endDate) {
-      setRangeValue([value, undefined]);
-      return;
-    }
-
-    if (startDate && startDate.getTime() === value.getTime()) {
-      setRangeValue([endDate, undefined]);
-      return;
-    }
-
-    if (endDate && endDate.getTime() === value.getTime()) {
-      setRangeValue([startDate, undefined]);
-      return;
-    }
-
-    if (startDate) {
-      setRangeValue(startDate > value ? [value, startDate] : [startDate, value]);
-      return;
-    }
-
-    if (endDate) {
-      setRangeValue(endDate > value ? [value, endDate] : [endDate, value]);
-    }
-  };
-
-  return <Calendar value={rangeValue} onChange={handleChange} />;
+  return (
+    <Calendar
+      value={rangeValue}
+      onChangeRange={({ value }) => setRangeValue(value)}
+      view="slider"
+    />
+  );
 };
 ```
-
-<CalendarExamplePeriod />
 
 ### Ограничение выбора
 
@@ -186,6 +166,11 @@ export type CalendarPropOnChange = (props: {
   value: CalendarPropValue;
   e: React.MouseEvent<HTMLDivElement>;
 }) => void;
+
+export type CalendarPropOnChangeRange = (props: {
+  value: CalendarPropValue;
+  e: React.MouseEvent<HTMLDivElement>;
+}) => void;
 ```
 
 | Свойство                                         | Тип или варианты значения           | По умолчанию | Описание                                                          |
@@ -198,6 +183,7 @@ export type CalendarPropOnChange = (props: {
 | [`events?`](#события-на-календаре)               | `Date[]`                            | -            | События                                                           |
 | [`locale?`](#локализация)                        | `Locale`                            | `ruLocale`   | Локализация                                                       |
 | [`currentVisibleDate?`](#какой-месяц-показывать) | `Date`                              | `new Date()` | Дата, которая входит в страницу календаря, которую нужно показать |
-| [`onChange?`](#выбор-даты)                       | `CalendarPropOnChange`              | -            | Обработчик событий выбора даты или диапазона дат                  |
+| [`onChange?`](#выбор-даты)                       | `CalendarPropOnChange`              | -            | Обработчик событий выбора даты                                    |
+| [`onChangeRange?`](#выбор-даты)                  | `CalendarPropOnChangeRange`         | -            | Обработчик событий выбора диапазона дат                           |
 | `ref?`                                           | `React.Ref<HTMLDivElement>`         | —            | Ссылка на корневой DOM-элемент компонента                         |
 | `className?`                                     | `string`                            | —            | Дополнительные CSS-классы                                         |

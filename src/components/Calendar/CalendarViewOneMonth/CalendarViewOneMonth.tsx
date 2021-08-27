@@ -23,9 +23,11 @@ export const CalendarViewOneMonth: CalendarViewComponent = React.forwardRef((pro
     maxDate,
     value,
     onChange,
+    onChangeRange,
     currentVisibleDate: currentVisibleDateProp,
     events,
     locale = ruLocale,
+
     ...otherProps
   } = props;
 
@@ -36,7 +38,14 @@ export const CalendarViewOneMonth: CalendarViewComponent = React.forwardRef((pro
     value,
   });
 
-  const handleSelectDate = getHandleSelectDate({ minDate, maxDate, value, onChange });
+  const handleSelectDate = getHandleSelectDate({
+    minDate,
+    maxDate,
+    value,
+    onChange,
+    onChangeRange,
+  });
+
   const daysOfMonth = getDaysOfMonth({
     date: currentVisibleDate,
     handleDayClick: handleSelectDate,

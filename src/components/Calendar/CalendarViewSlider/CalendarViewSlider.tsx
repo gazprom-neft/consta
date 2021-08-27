@@ -26,6 +26,7 @@ export const CalendarViewSlider: CalendarViewComponent = React.forwardRef((props
     maxDate,
     value,
     onChange,
+    onChangeRange,
     currentVisibleDate: currentVisibleDateProp = new Date(),
     events,
     locale = ruLocale,
@@ -39,7 +40,14 @@ export const CalendarViewSlider: CalendarViewComponent = React.forwardRef((props
     value,
   });
 
-  const handleSelectDate = getHandleSelectDate({ minDate, maxDate, value, onChange });
+  const handleSelectDate = getHandleSelectDate({
+    minDate,
+    maxDate,
+    value,
+    onChange,
+    onChangeRange,
+  });
+
   const daysOfMonth = getDaysOfMonth({
     date: currentVisibleDate,
     handleDayClick: handleSelectDate,
@@ -49,6 +57,7 @@ export const CalendarViewSlider: CalendarViewComponent = React.forwardRef((props
     maxDate,
     locale,
   });
+
   const nextDaysOfMonth = getDaysOfMonth({
     date: addMonths(currentVisibleDate, 1),
     handleDayClick: handleSelectDate,
@@ -58,6 +67,7 @@ export const CalendarViewSlider: CalendarViewComponent = React.forwardRef((props
     maxDate,
     locale,
   });
+
   const monthLabel = getMonthTitle(currentVisibleDate, locale);
   const nextMonthLabel = getMonthTitle(addMonths(currentVisibleDate, 1), locale);
   const daysOfWeek = getDaysOfWeek(locale);
