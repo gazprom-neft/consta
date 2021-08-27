@@ -11,7 +11,7 @@ const cnAttachExampleIcon = cn('AttachExampleIcon');
 
 export function AttachExampleIcon() {
   return (
-    <div className={cnDocsDecorator('Section', [cnDocsExample(null)])}>
+    <div className={cnDocsDecorator('Section', [cnDocsExample()])}>
       <div>
         <Attach className={cnAttachExampleIcon()} fileName="Картинка в JPG" fileExtension="jpg" />
       </div>

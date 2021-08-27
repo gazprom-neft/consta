@@ -6,7 +6,7 @@ import * as wp from '../../../../../uiKit/whitepaper/whitepaper';
 import { Badge } from '../../../Badge';
 
 export const BadgeExampleStatus = () => (
-  <div className={cnDocsDecorator('Section', [cnDocsExample(null)])}>
+  <div className={cnDocsDecorator('Section', [cnDocsExample()])}>
     <Badge status="normal" label="Новый" className={wp.decorator({ 'indent-r': 'm' })} />
     <Badge status="success" label="Сойдёт" className={wp.decorator({ 'indent-r': 'm' })} />
     <Badge status="error" label="Отстой" className={wp.decorator({ 'indent-r': 'm' })} />

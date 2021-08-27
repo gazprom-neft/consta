@@ -11,7 +11,7 @@ const cnAttachExampleError = cn('AttachExampleError');
 
 export function AttachExampleError() {
   return (
-    <div className={cnDocsDecorator('Section', [cnDocsExample(null)])}>
+    <div className={cnDocsDecorator('Section', [cnDocsExample()])}>
       <div>
         <Attach
           className={cnAttachExampleError()}

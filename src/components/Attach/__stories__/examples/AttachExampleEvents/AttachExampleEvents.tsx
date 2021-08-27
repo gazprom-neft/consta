@@ -12,7 +12,7 @@ const cnAttachExampleEvents = cn('AttachExampleEvents');
 
 export function AttachExampleEvents() {
   return (
-    <div className={cnDocsDecorator('Section', [cnDocsExample(null)])}>
+    <div className={cnDocsDecorator('Section', [cnDocsExample()])}>
       <Attach
         className={cnAttachExampleEvents()}
         fileName="my_tale_about_mars_final_last_12"

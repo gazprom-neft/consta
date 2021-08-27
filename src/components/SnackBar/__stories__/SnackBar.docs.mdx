@@ -66,21 +66,13 @@ import { SnackBarExampleButtons } from './examples/SnackBarExampleButtons/SnackB
 
 ```tsx
 type Item = {
-  key: string;
-  number;
-  message?: string;
-  number;
-  status?: 'system';
-  success;
-  warning;
-  alert;
-  normal;
-  autoClose?: boolean;
-  number;
+  key: string | number;
+  message?: string | number;
+  status?: 'success' | 'warning' | 'alert' | 'normal';
+  autoClose?: boolean | number;
   icon?: React.FC<IconProps>;
   actions?: {
-    label: string;
-    number;
+    label: string | number;
     onClick: React.EventHandler<React.MouseEvent>;
   }[];
   onClose?: (item: Item) => void;

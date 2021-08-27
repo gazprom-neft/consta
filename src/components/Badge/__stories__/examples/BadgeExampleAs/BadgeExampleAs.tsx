@@ -5,7 +5,7 @@ import { cnDocsExample } from '../../../../../uiKit/components/DocsExample/DocsE
 import { Badge } from '../../../Badge';
 
 export const BadgeExampleAs = () => (
-  <div className={cnDocsDecorator('Section', [cnDocsExample(null)])}>
+  <div className={cnDocsDecorator('Section', [cnDocsExample()])}>
     <Badge as="a" href="#" label="Я ссылка, которая притворяется бейджиком" />
   </div>
 );

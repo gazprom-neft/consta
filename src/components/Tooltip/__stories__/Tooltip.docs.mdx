@@ -35,15 +35,28 @@ import {
 
 ### По элементу-якорю
 
-<Preview>
-  <TooltipPositionedByAnchorStory />
-</Preview>
+<TooltipPositionedByAnchorStory />
+
+### Пример
+
+```ts
+<Button label="Открыть тултип" type="button" ref={buttonRef} />
+<Tooltip size="s" anchorRef={buttonRef}>
+  Контент тултипа
+</Tooltip>
+```
 
 ### По координатам
 
-<Preview>
-  <TooltipPositionedByCoordsStory />
-</Preview>
+<TooltipPositionedByCoordsStory />
+
+### Пример
+
+```ts
+<Tooltip size="s" position={{ x: 100, y: 200 }}>
+  Контент тултипа
+</Tooltip>
+```
 
 ## Свойства
 
@@ -59,22 +72,3 @@ import {
 | `isInteractive?`      | `boolean`                                     | `true`                  | см. [Popover](?path=/docs/components-popover--popover-positioned-by-coords-story) |
 | `onClickOutside?`     | `(event: MouseEvent) => void`                 | —                       | см. [Popover](?path=/docs/components-popover--popover-positioned-by-coords-story) |
 | `equalAnchorWidth?`   | `boolean`                                     | `fasle`                 | см. [Popover](?path=/docs/components-popover--popover-positioned-by-coords-story) |
-
-## Примеры
-
-### Позиционирование по координате
-
-```ts
-<Tooltip size="s" position={{ x: 100, y: 200 }}>
-  Контент тултипа
-</Tooltip>
-```
-
-### Позиционирование по якорю
-
-```ts
-<Button label="Открыть тултип" type="button" ref={buttonRef} />
-<Tooltip size="s" anchorRef={buttonRef}>
-  Контент тултипа
-</Tooltip>
-```

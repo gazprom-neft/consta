@@ -13,7 +13,7 @@ const cnAttachExampleBasics = cn('AttachExampleBasics');
 
 export function AttachExampleBasicsLoading() {
   return (
-    <div className={cnDocsDecorator('Section', [cnDocsExample(null)])}>
+    <div className={cnDocsDecorator('Section', [cnDocsExample()])}>
       <Attach
         className={cnAttachExampleBasics()}
         fileName="Инструкция по сборке марсохода"
@@ -34,7 +34,7 @@ export function AttachExampleBasicsLoading() {
 
 export function AttachExampleBasicsError() {
   return (
-    <div className={cnDocsDecorator('Section', [cnDocsExample(null)])}>
+    <div className={cnDocsDecorator('Section', [cnDocsExample()])}>
       <Attach
         className={cnAttachExampleBasics()}
         fileName="Инструкция по сборке марсохода"
@@ -54,7 +54,7 @@ export function AttachExampleBasicsError() {
 
 export function AttachExampleBasicsLoaded() {
   return (
-    <div className={cnDocsDecorator('Section', [cnDocsExample(null)])}>
+    <div className={cnDocsDecorator('Section', [cnDocsExample()])}>
       <Attach
         className={cnAttachExampleBasics()}
         fileName="Инструкция по сборке марсохода"
@@ -74,7 +74,7 @@ export function AttachExampleBasicsLoaded() {
 
 export function AttachExampleBasicsLink() {
   return (
-    <div className={cnDocsDecorator('Section', [cnDocsExample(null)])}>
+    <div className={cnDocsDecorator('Section', [cnDocsExample()])}>
       <Attach
         className={cnAttachExampleBasics()}
         fileName="Инструкция по сборке марсохода"

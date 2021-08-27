@@ -11,7 +11,7 @@ const cnAttachExampleDescription = cn('AttachExampleDescription');
 
 export function AttachExampleDescription() {
   return (
-    <div className={cnDocsDecorator('Section', [cnDocsExample(null)])}>
+    <div className={cnDocsDecorator('Section', [cnDocsExample()])}>
       <div>
         <Attach
           className={cnAttachExampleDescription()}

@@ -8,7 +8,7 @@ import * as wp from '../../../../../uiKit/whitepaper/whitepaper';
 import { Badge } from '../../../Badge';
 
 export const BadgeExampleIcon = () => (
-  <div className={cnDocsDecorator('Section', [cnDocsExample(null)])}>
+  <div className={cnDocsDecorator('Section', [cnDocsExample()])}>
     <Badge
       icon={IconCheck}
       status="success"

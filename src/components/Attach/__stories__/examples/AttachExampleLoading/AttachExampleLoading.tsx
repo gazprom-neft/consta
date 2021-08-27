@@ -11,7 +11,7 @@ const cnAttachExampleLoading = cn('AttachExampleLoading');
 
 export function AttachExampleLoading() {
   return (
-    <div className={cnDocsDecorator('Section', [cnDocsExample(null)])}>
+    <div className={cnDocsDecorator('Section', [cnDocsExample()])}>
       <Attach
         className={cnAttachExampleLoading()}
         fileName="Инструкция по сборке марсохода"

@@ -54,7 +54,7 @@ const getTagLabel = (name: string, value?: OptionValue): string => {
 
 export const TableSelectedOptionsList: React.FC<Props> = ({ values, onRemove, onReset }) => {
   return (
-    <div className={cnTableSelectedOptionsList(null)}>
+    <div className={cnTableSelectedOptionsList()}>
       <div className={cnTableSelectedOptionsList('Options')}>
         {values.map((option) => (
           <Tag
