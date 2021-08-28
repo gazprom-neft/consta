@@ -21,7 +21,12 @@ export const radioGroupViews = ['primary', 'ghost'] as const;
 export type RadioGroupPropView = typeof radioGroupViews[number];
 export const radioGroupDefaultView: RadioGroupPropView = radioGroupViews[0];
 
+export const radioGroupPropAlign = ['center', 'top'] as const;
+export type RadioGroupPropAlign = typeof radioGroupPropAlign[number];
+export const radioGroupPropAlignDefault: RadioGroupPropAlign = radioGroupPropAlign[0];
+
 type CommonProps<ITEM> = {
+  align?: RadioGroupPropAlign;
   value?: ITEM | null;
   items: ITEM[];
   getLabel: (item: ITEM) => string;
@@ -50,6 +55,7 @@ export const RadioGroup: RadioGroup = React.forwardRef((props, ref) => {
     direction = radioGroupDefaultDirection,
     size = radioGroupDefaultSize,
     view = radioGroupDefaultView,
+    align = radioGroupPropAlignDefault,
     disabled = false,
     className,
     ...otherProps
@@ -66,6 +72,7 @@ export const RadioGroup: RadioGroup = React.forwardRef((props, ref) => {
     <div {...otherProps} ref={ref} className={cnRadioGroup({ direction, size, view }, [className])}>
       {items.map((item) => (
         <Radio
+          align={align}
           key={getLabel(item)}
           label={getLabel(item)}
           size={size}
