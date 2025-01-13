@@ -22,6 +22,7 @@ export type FieldControlLayoutProps = PropsWithHTMLAttributesAndRef<
     focused?: boolean;
     leftSlotsRefs?: React.Ref<HTMLDivElement>[];
     rightSlotsRefs?: React.Ref<HTMLDivElement>[];
+    alignSlots?: 'top' | 'center';
   },
   HTMLDivElement
 >;

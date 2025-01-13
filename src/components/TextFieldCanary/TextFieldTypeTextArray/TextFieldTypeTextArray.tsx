@@ -17,8 +17,6 @@ import { useComponentSize } from '##/hooks/useComponentSize';
 import { useForkRef } from '##/hooks/useForkRef';
 import { useKeys, UseKeysPropKeys } from '##/hooks/useKeys';
 import { useMutableRef } from '##/hooks/useMutableRef';
-import { useRefs } from '##/hooks/useRefs';
-import { getElementWidth, useResizeObserved } from '##/hooks/useResizeObserved';
 import { getStyleProps } from '##/hooks/useStyleProps';
 import { cnMixScrollBar } from '##/mixs/MixScrollBar';
 
@@ -182,14 +180,7 @@ export const TextFieldTypeTextArray: TextFieldTypeComponent<'textarray'> =
       onEvent: onKeyDown,
     });
 
-    const rightSlotsRefs = useRefs<HTMLDivElement>(2, [
-      !!rightSide,
-      withClearButton && !disabled && withValue,
-    ]);
-
     const controlSize = useComponentSize(controlRef);
-
-    const slotSizes = useResizeObserved(rightSlotsRefs, getElementWidth);
 
     const stylesRoot: Record<'max-height' | 'height', string> | undefined =
       ref.current
@@ -213,7 +204,7 @@ export const TextFieldTypeTextArray: TextFieldTypeComponent<'textarray'> =
     return (
       <FieldControlLayout
         {...otherProps}
-        className={cnTextFieldTypeTextArray(null, [className])}
+        className={cnTextFieldTypeTextArray({ withValue }, [className])}
         form={form}
         status={status}
         size={size}
@@ -229,16 +220,10 @@ export const TextFieldTypeTextArray: TextFieldTypeComponent<'textarray'> =
         ref={useForkRef([componentRef, ref])}
         disabled={disabled}
         onClick={handleClick}
-        rightSlotsRefs={rightSlotsRefs}
         style={{
           ...style,
           ['--text-field-textarray-max-height' as string]:
             stylesRoot?.['max-height'] || stylesRoot?.height || 'auto',
-          ['--text-field-textarray-slot-sizes-width' as string]: `${slotSizes.reduce(
-            (a, b) => a + b,
-          )}px`,
-          ['--text-field-textarray-slot-sizes-length' as string]:
-            slotSizes.filter((width) => !!width).length,
         }}
       >
         <div
@@ -258,14 +243,16 @@ export const TextFieldTypeTextArray: TextFieldTypeComponent<'textarray'> =
             onKeyDown={handleInputKeyDown}
             ref={controlRef}
             placeholder={placeholder}
-            renderValue={(item, index) =>
-              renderValueItem({
-                item,
-                index,
-                size,
-                disabled,
-                onRemove: getRemoveItem(index),
-              })
+            renderValue={(items) =>
+              items.map((item, index) =>
+                renderValueItem({
+                  item,
+                  index,
+                  size,
+                  disabled,
+                  onRemove: getRemoveItem(index),
+                }),
+              )
             }
             onCopy={onCopy}
             onCopyCapture={onCopyCapture}
@@ -278,6 +265,7 @@ export const TextFieldTypeTextArray: TextFieldTypeComponent<'textarray'> =
             onKeyUp={onKeyUp}
             onKeyUpCapture={onKeyUpCapture}
             onWheel={onWheel}
+            disabled={disabled}
           />
         </div>
       </FieldControlLayout>

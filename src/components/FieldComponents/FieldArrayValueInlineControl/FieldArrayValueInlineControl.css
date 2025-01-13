@@ -2,21 +2,23 @@
   display: flex;
   flex-wrap: wrap;
   gap: var(--field-array-value-inline-control-items-gap);
-  padding:
-    calc(
+  padding: calc(
       var(--field-array-value-inline-control-vertical-padding) -
-      var(--field-control-layout-border-width)
+        var(--field-control-layout-border-width)
     )
     0;
 
   &-Input {
     display: block;
     flex: 1;
-    min-width:
-      min(
+    min-width: min(
+      max(
         var(--field-array-value-inline-control-input-min-width),
-        100%
-      );
+        var(--field-control-layout-space)
+      ),
+      var(--field-control-layout-children-width)
+    );
+
     height: var(--field-array-value-inline-control-input-height);
     color: var(--field-control-layout-input-color);
     background: transparent;

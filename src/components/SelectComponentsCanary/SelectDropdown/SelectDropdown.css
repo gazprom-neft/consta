@@ -1,0 +1,19 @@
+.canary--SelectDropdown {
+  --select-dropdown-height: 200px;
+  min-width: 220px;
+  outline: none;
+
+  &-ScrollContainer {
+    overflow: auto;
+    max-height: var(--select-dropdown-height);
+  }
+
+  &-List {
+    &_scrolled {
+      pointer-events: none;
+    }
+  }
+  .ListDivider:last-child {
+    display: none;
+  }
+}

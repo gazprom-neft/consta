@@ -1,15 +1,13 @@
 .TextFieldTypeTextArray {
-  --text-field-textarray-padding:
-    calc(
-      (var(--text-field-textarray-slot-sizes-length) + 1) *
+  --text-field-textarray-padding: calc(
+    (var(--field-control-layout-right-slots-length) + 1) *
       var(--field-control-layout-space) +
-      var(--text-field-textarray-slot-sizes-width)
-    );
-  --text-field-textarray-scroll-wrapper-height:
-    calc(
-      var(--text-field-textarray-max-height) -
+      var(--field-control-layout-right-slot-contents-width)
+  );
+  --text-field-textarray-scroll-wrapper-height: calc(
+    var(--text-field-textarray-max-height) -
       (var(--field-control-layout-border-width) * 2)
-    );
+  );
 
   &-ScrollWrapper {
     overflow: auto;

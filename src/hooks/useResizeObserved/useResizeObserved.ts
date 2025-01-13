@@ -1,4 +1,4 @@
-import React, { RefObject, useLayoutEffect } from 'react';
+import { RefObject, useLayoutEffect, useState } from 'react';
 
 import { useMutableRef } from '##/hooks/useMutableRef';
 
@@ -13,7 +13,7 @@ export const useResizeObserved = <
     refs.map((ref) => mapper(ref.current)),
   );
 
-  const [dimensions, setDimensions] = React.useState<RETURN_TYPE[]>(
+  const [dimensions, setDimensions] = useState<RETURN_TYPE[]>(
     calculateDimensionsRef.current,
   );
 

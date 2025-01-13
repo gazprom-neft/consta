@@ -1,0 +1,7 @@
+.SelectCanaryVariants {
+  position: absolute;
+  top: var(--space-l);
+  width: 100%;
+  max-width: 360px;
+  padding: var(--space-m);
+}

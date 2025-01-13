@@ -1,0 +1,73 @@
+<svg
+  width="200"
+  height="120"
+  viewBox="0 0 200 120"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <path
+    d="M0 4C0 1.79086 1.79086 0 4 0H196C198.209 0 200 1.79086 200 4V116C200 118.209 198.209 120 196 120H4C1.79086 120 0 118.209 0 116V4Z"
+    fill="var(--color-bg-default)"
+  />
+  <rect
+    x="46"
+    y="14"
+    width="108"
+    height="20"
+    rx="4"
+    fill="var(--color-bg-ghost)"
+  />
+  <path
+    d="M137 22L141.5 27L146 22H137Z"
+    fill="var(--color-control-typo-placeholder)"
+  />
+  <rect
+    x="46"
+    y="34"
+    width="108"
+    height="72"
+    rx="4"
+    fill="var(--color-bg-default)"
+  />
+  <rect
+    x="58"
+    y="67"
+    width="63"
+    height="5"
+    fill="var(--color-control-typo-placeholder)"
+  />
+  <rect
+    x="58"
+    y="87"
+    width="63"
+    height="5"
+    fill="var(--color-control-typo-placeholder)"
+  />
+  <rect
+    x="58"
+    y="47"
+    width="63"
+    height="5"
+    fill="var(--color-control-typo-placeholder)"
+  />
+  <path
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    d="M138.818 51.9956L135.673 49.1321L135 49.8716L138.915 53.436L145.035 46.1428L144.269 45.5L138.818 51.9956Z"
+    fill="var(--color-bg-link)"
+  />
+  <path
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    d="M138.818 91.9956L135.673 89.1321L135 89.8716L138.915 93.436L145.035 86.1428L144.269 85.5L138.818 91.9956Z"
+    fill="var(--color-bg-link)"
+  />
+  <rect
+    x="46.5"
+    y="34.5"
+    width="107"
+    height="71"
+    rx="3.5"
+    stroke="var(--color-bg-border)"
+  />
+</svg>

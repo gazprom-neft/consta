@@ -9,7 +9,7 @@ export type FieldArrayValueInlineControlProps<ITEM> =
     {
       children?: never;
       value?: ITEM[];
-      renderValue: (item: ITEM, index: number) => React.ReactNode;
+      renderValue: (items: ITEM[]) => React.ReactNode;
       inputMaxLength?: number;
       inputValue?: string;
       inputDefaultValue?: string;

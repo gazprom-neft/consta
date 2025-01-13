@@ -1,13 +1,22 @@
 .TagBase.FieldArrayValueItem {
   flex: none;
-  margin: 0 var(--tag-space) var(--tag-space) 0;
+  max-width: calc(
+    var(--field-control-layout-children-width) - var(--space-2xs)
+  );
+  overflow: hidden;
 
-  .TagBase-Label {
-    word-break: break-word;
+  & .TagBase-Label {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    display: inline-block;
   }
 
   &_disabled {
     background-color: var(--color-control-bg-disable);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: inline-block;
 
     & > * {
       color: var(--color-control-typo-disable);

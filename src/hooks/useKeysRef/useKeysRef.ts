@@ -26,18 +26,23 @@ export const useKeysRef = (params: UseKeysProps) => {
     eventHandler,
   } = params;
 
-  const fn = useMutableRef((e: KeyboardEvent) => {
-    if (isActive) {
-      (keys[e.code as KeyCode] || keys[e.key as KeyCode])?.(e);
-    }
-    eventHandler?.(e);
-  });
+  const keysRef = useMutableRef(keys);
 
   useEffect(() => {
-    ref?.current?.addEventListener(eventType, fn.current);
+    const fn = (e: KeyboardEvent) => {
+      if (isActive) {
+        (
+          keysRef.current[e.code as KeyCode] ||
+          keysRef.current[e.key as KeyCode]
+        )?.(e);
+      }
+      eventHandler?.(e);
+    };
+
+    ref?.current?.addEventListener(eventType, fn);
 
     return () => {
-      ref?.current?.removeEventListener(eventType, fn.current);
+      ref?.current?.removeEventListener(eventType, fn);
     };
   }, [ref?.current, eventType]);
 };

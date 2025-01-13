@@ -1,0 +1,15 @@
+.canary--SelectMultiple {
+  --select-value-offset: 0px;
+  &_withValue {
+    --select-value-offset: calc(
+      var(--field-control-layout-right-slot-content-width-0) +
+        var(--field-control-layout-space) * 2
+    );
+  }
+  &-Value.FieldArrayValueInlineControl {
+    max-height: calc(var(--field-control-layout-height) * 3.7);
+    overflow: auto;
+    width: calc(100% + var(--select-value-offset));
+    padding-right: var(--select-value-offset);
+  }
+}

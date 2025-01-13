@@ -13,17 +13,33 @@
 */
 
 .FieldControlLayout {
-  --field-control-layout-slot-height:
-    calc(
-      var(--field-control-layout-height) -
+  --field-control-layout-slot-height: calc(
+    var(--field-control-layout-height) -
       var(--field-control-layout-border-width) * 2
-    );
+  );
   --field-control-layout-slot-color: var(--color-control-typo-placeholder);
-  --field-control-layout-placeholder-color:
-    var(
-      --color-control-typo-placeholder
-    );
+  --field-control-layout-placeholder-color: var(
+    --color-control-typo-placeholder
+  );
   --field-control-layout-input-color: var(--color-control-typo-default);
+  --field-control-layout-left-slots-width: calc(
+    var(--field-control-layout-left-slots-length) *
+      var(--field-control-layout-space) +
+      var(--field-control-layout-left-slot-contents-width)
+  );
+  --field-control-layout-right-slots-width: calc(
+    var(--field-control-layout-right-slots-length) *
+      var(--field-control-layout-space) +
+      var(--field-control-layout-right-slot-contents-width)
+  );
+  --field-control-layout-children-width: calc(
+    var(--field-control-layout-container-width) -
+      (
+        var(--field-control-layout-right-slots-width) +
+          var(--field-control-layout-left-slots-width)
+      )
+  );
+
   box-sizing: border-box;
   min-height: var(--field-control-layout-height);
   padding: var(--field-control-layout-padding);
@@ -42,6 +58,14 @@
     --field-control-layout-slot-color: var(--color-control-typo-disable);
   }
 
+  &_alignSlots_top &-Slot {
+    height: var(--field-control-layout-slot-height);
+  }
+
+  &_alignSlots_center &-Slot {
+    height: auto;
+  }
+
   &-Container {
     display: flex;
     min-height: var(--field-control-layout-slot-height);
@@ -53,12 +77,12 @@
     flex: none;
     justify-content: center;
     align-items: center;
-    height: var(--field-control-layout-slot-height);
     color: var(--field-control-layout-slot-color);
     font-size: var(--field-control-layout-text-size);
   }
 
   &-Children {
     flex: auto;
+    width: var(--field-control-layout-children-width);
   }
 }

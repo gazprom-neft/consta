@@ -1,6 +1,9 @@
 import React, { forwardRef } from 'react';
 
 import { useFlag } from '##/hooks/useFlag';
+import { forkRef } from '##/hooks/useForkRef';
+import { useRefs } from '##/hooks/useRefs';
+import { getElementWidth, useResizeObserved } from '##/hooks/useResizeObserved';
 
 import { cnFieldControlLayout } from './cnFieldControlLayout';
 import {
@@ -11,17 +14,19 @@ import {
   getBorderStyle,
   getPadding,
   getSlots,
+  getSlotsWidthStyles,
 } from './helpers';
 import { FieldControlLayoutProps } from './types';
 
 const renderContentSlot = (
   node: React.ReactNode,
   index: number,
+  slotsInnerRefs?: React.Ref<HTMLDivElement>[],
   slotsRefs?: React.Ref<HTMLDivElement>[],
 ) => (
   <div
     key={index}
-    ref={slotsRefs?.[index]}
+    ref={forkRef([slotsInnerRefs?.[index], slotsRefs?.[index]])}
     className={cnFieldControlLayout('Slot')}
   >
     {node}
@@ -44,12 +49,19 @@ export const FieldControlLayout = forwardRef<
     children,
     style,
     focused,
-    leftSlotsRefs,
-    rightSlotsRefs,
+    leftSlotsRefs: leftSlotsRefsProp,
+    rightSlotsRefs: rightSlotsRefsProp,
+    alignSlots = 'top',
     ...otherProps
   } = props;
   const leftSlots = getSlots(leftSide);
   const rightSlots = getSlots(rightSide);
+  const leftSlotsRefs = useRefs<HTMLDivElement>(leftSlots.length);
+  const containerRefs = useRefs<HTMLDivElement>(1);
+  const rightSlotsRefs = useRefs<HTMLDivElement>(rightSlots.length);
+  const leftSlotsWidth = useResizeObserved(leftSlotsRefs, getElementWidth);
+  const rightSlotsWidth = useResizeObserved(rightSlotsRefs, getElementWidth);
+  const containerWidth = useResizeObserved(containerRefs, getElementWidth)[0];
 
   // ToDo: Удалить после того как удалим из всех компонентов "clearClear"
   const form = formGuard(formProp);
@@ -60,7 +72,9 @@ export const FieldControlLayout = forwardRef<
     <div
       {...otherProps}
       ref={ref}
-      className={cnFieldControlLayout({ form, disabled, view }, [className])}
+      className={cnFieldControlLayout({ form, disabled, view, alignSlots }, [
+        className,
+      ])}
       style={{
         ...style,
         ['--field-control-layout-border-color' as string]: getBorderColor(
@@ -88,19 +102,22 @@ export const FieldControlLayout = forwardRef<
         ),
         ['--field-control-layout-border-width' as string]:
           view === 'default' ? 'var(--control-border-width)' : '0px',
+        ['--field-control-layout-container-width' as string]: `${containerWidth}px`,
+        ...getSlotsWidthStyles(leftSlotsWidth, 'left'),
+        ...getSlotsWidthStyles(rightSlotsWidth, 'right'),
       }}
       onMouseEnter={setHovered.on}
       onMouseLeave={setHovered.off}
     >
-      <div className={cnFieldControlLayout('Container')}>
+      <div ref={containerRefs[0]} className={cnFieldControlLayout('Container')}>
         {!!leftSlots.length &&
           leftSlots.map((slot, index) =>
-            renderContentSlot(slot, index, leftSlotsRefs),
+            renderContentSlot(slot, index, leftSlotsRefs, leftSlotsRefsProp),
           )}
         <div className={cnFieldControlLayout('Children')}>{children}</div>
         {!!rightSlots.length &&
           rightSlots.map((slot, index) =>
-            renderContentSlot(slot, index, rightSlotsRefs),
+            renderContentSlot(slot, index, rightSlotsRefs, rightSlotsRefsProp),
           )}
       </div>
     </div>

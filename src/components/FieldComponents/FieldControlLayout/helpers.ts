@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { CSS, CSSProperties } from 'react';
 
 import { isNotNil } from '##/utils/type-guards';
 
@@ -101,6 +101,28 @@ export const getBgColor = (view: FieldPropView, disabled?: boolean) => {
   if (view === 'default') {
     return 'var(--color-bg-default)';
   }
+};
+
+export const getSlotsWidthStyles = (
+  sizes: number[],
+  postfix: string,
+): CSSProperties => {
+  const style: CSSProperties = {};
+  for (let index = 0; index < sizes.length; index++) {
+    style[
+      `--field-control-layout-${postfix}-slot-content-width-${index}` as 'width'
+    ] = `${sizes[index]}px`;
+  }
+
+  style[
+    `--field-control-layout-${postfix}-slot-contents-width` as 'width'
+  ] = `${sizes.length ? sizes.reduce((a, b) => a + b) : 0}px`;
+
+  style[
+    `--field-control-layout-${postfix}-slots-length` as 'width'
+  ] = `${sizes.length}`;
+
+  return style;
 };
 
 // ToDo: Удалить после того как удалим из всех компонентов "clearClear"

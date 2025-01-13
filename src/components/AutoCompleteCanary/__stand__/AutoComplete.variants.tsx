@@ -72,7 +72,6 @@ const Variants = () => {
     status,
     size,
     view,
-    className: cnAutoCompleteVariants(),
     items,
     dropdownForm,
     groups: withGroups ? groups : [],
@@ -86,23 +85,27 @@ const Variants = () => {
 
   if (type === 'textarray') {
     return (
-      <AutoComplete
-        {...props}
-        value={value}
-        type="textarray"
-        inputValue={inputValue}
-        onInputChange={setInputValue}
-        onChange={setValue}
-      />
+      <div className={cnAutoCompleteVariants()}>
+        <AutoComplete
+          {...props}
+          value={value}
+          type="textarray"
+          inputValue={inputValue}
+          onInputChange={setInputValue}
+          onChange={setValue}
+        />
+      </div>
     );
   }
   return (
-    <AutoComplete
-      {...props}
-      value={inputValue}
-      onChange={setInputValue}
-      type={type}
-    />
+    <div className={cnAutoCompleteVariants()}>
+      <AutoComplete
+        {...props}
+        value={inputValue}
+        onChange={setInputValue}
+        type={type}
+      />
+    </div>
   );
 };
 

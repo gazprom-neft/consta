@@ -1,0 +1,16 @@
+.SelectLoader {
+  --loader-height: 0;
+  position: relative;
+  height:
+    calc(
+      var(--select-dropdown-height) - var(--space-padding-bottom) -
+      var(--space-padding-top)
+    );
+  cursor: wait;
+
+  &-Loader.deprecated--Loader {
+    --backgroundColor: var(--color-control-typo-disable);
+    position: absolute;
+    height: var(--select-dropdown-height);
+  }
+}

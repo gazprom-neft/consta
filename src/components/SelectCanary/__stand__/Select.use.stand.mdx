@@ -1,0 +1,77 @@
+import { MdxMenu } from '@consta/stand';
+import { MdxImage } from '@consta/stand';
+import plug from './images/plug.image.png';
+import imageExample01 from './images/Combobox_example_01.jpg';
+import imageExample02 from './images/Combobox_example_02.jpg';
+import imageExample03 from './images/Combobox_example_03.jpg';
+import imageExample04 from './images/Combobox_example_04.jpg';
+
+<MdxMenu>
+
+- [Контекст использования](#контекст-использования)
+- [Лучшие практики](#лучшие-практики)
+- [Похожие компоненты](#похожие-компоненты)
+- [Полезные ссылки](#полезные-ссылки)
+
+</MdxMenu>
+
+Используйте `Combobox`, когда пользователю необходимо выбрать один или несколько элементов из выпадающего списка.
+
+<MdxImage src={imageExample04} />
+
+# Контекст использования
+
+Компонент особенно полезен в случаях, когда список элементов слишком большой для отображения всех элементов сразу, и пользователю нужно найти элемент, набрав его название частично или полностью.
+
+## Формы ввода данных
+
+Компонент `Combobox` используется в формах ввода данных, когда пользователю нужно выбрать один или несколько вариантов из большого списка.
+
+**Пример**. Выбор типа ткани при заказе в онлайн-магазине. Пользователь вводит тип, а combobox автоматически показывает подходящие ответы.
+
+<MdxImage src={imageExample02} />
+
+## Фильтры и сортировка
+
+Компонент подходит для выбора критериев фильтрации или сортировки при поиске товаров, услуг или информации.
+
+**Пример**. Фильтрация техники по цвету в интернет-магазине.
+
+<MdxImage src={imageExample01} />
+
+## Поддержка пользовательских значений
+
+Используйте `Combobox` в сценариях, где требуется возможность [ввода значения](##LIBS.LIB.STAND.TAB/lib:uikit/stand:components-combobox-stable/tab:dev/hash:выбор-всех-элементов), отсутствующего в списке.
+
+**Пример**. Ввод профессии, которая отсутствует в изначальном списке, в профиле пользователя.
+
+<MdxImage src={imageExample03} />
+
+# Лучшие практики
+
+## Подсказка
+
+Вы можете добавить [подсказку](##LIBS.LIB.STAND.TAB/lib:uikit/stand:components-combobox-stable/tab:dev/hash:подсказка) для заполнения поля. Так, например, можно написать "Выберите вариант".
+
+## Виртуализация скролла
+
+Ограничивайте количество одновременно отображаемых опций. Если список слишком длинный, это может затруднить выбор пользователя. В таких случаях используйте [виртуальный скролл](##LIBS.LIB.STAND.TAB/lib:uikit/stand:components-combobox-stable/tab:dev/hash:виртуализация-списка) или подгрузку данных по мере ввода.
+
+## Группировка
+
+Если в списке много элементов, разделите их на логические [группы](##LIBS.LIB.STAND.TAB/lib:uikit/stand:components-combobox-stable/tab:dev/hash:группы-вариантов). Это упростит навигацию и поиск нужного варианта.
+
+## Выбор всех элементов
+
+Если сценарий использования допускает возможность выбора всех элементов списка, добавьте возможность [выбора всех элементов](##LIBS.LIB.STAND.TAB/lib:uikit/stand:components-combobox-stable/tab:dev/hash:выбор-всех-элементов).
+
+# Похожие компоненты
+
+- [Select](##LIBS.LIB.STAND/lib:uikit/stand:components-select-stable) — выпадающий список с возможностью выбора одного элемента.
+- [AutoComplete](##LIBS.LIB.STAND/lib:uikit/stand:components-autocomplete-stable) — поле для ввода текста с поиском по возможным значениям.
+
+# Полезные ссылки
+
+- [Редполитика](##LIBS.LIB.STAND/lib:portal/stand:guidelines-editorialpolicy)
+- [Select](##LIBS.LIB.STAND/lib:uikit/stand:components-select-stable)
+- [AutoComplete](##LIBS.LIB.STAND/lib:uikit/stand:components-autocomplete-stable)

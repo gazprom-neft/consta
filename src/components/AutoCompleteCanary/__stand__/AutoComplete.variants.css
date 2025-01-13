@@ -1,9 +1,7 @@
 .AutoCompleteVariants {
-  &.AutoComplete {
-    position: absolute;
-    top: var(--space-l);
-    width: 100%;
-    max-width: 400px;
-    padding: var(--space-m);
-  }
+  position: absolute;
+  top: var(--space-l);
+  width: 400px;
+  max-width: 400px;
+  padding: var(--space-m);
 }

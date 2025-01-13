@@ -50,7 +50,7 @@ export const AutoCompleteTypeText: AutoCompleteTypeComponent<string> =
       ...otherProps
     } = withDefaultGetters(props);
 
-    const dropdownRef = useRef<HTMLDivElement | null>(null);
+    const dropdownRef = useRef<HTMLDivElement>(null);
     const controlRef = useRef<HTMLDivElement>(null);
 
     const {

@@ -104,7 +104,7 @@ const FieldArrayValueInlineControlRender = (
         ['--field-array-value-inline-control-input-height' as string]: `${inputHeightMap[size]}`,
       }}
     >
-      {value.map(renderValue)}
+      {renderValue(value)}
       <input
         className={cnFieldArrayValueInlineControl('Input')}
         onChange={handleChange}

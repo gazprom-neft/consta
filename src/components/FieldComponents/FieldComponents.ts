@@ -12,4 +12,6 @@ export * from './FieldButtonStyleReset';
 export * from './FieldArrayValueInlineControl';
 export * from './FieldArrayValueItem';
 export * from './FieldWrapper';
+export * from './FieldSelectControlLayout';
+export * from './FieldSelectInput';
 export * from './types';

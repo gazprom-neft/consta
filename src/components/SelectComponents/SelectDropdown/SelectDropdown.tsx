@@ -75,7 +75,7 @@ type Props<ITEM, GROUP> = PropsWithJsxAttributes<{
   onScrollToBottom?: (length: number) => void;
 }>;
 
-type SelectDropdown = <ITEM, GROUP>(
+type SelectDropdownComponent = <ITEM, GROUP>(
   props: Props<ITEM, GROUP>,
 ) => React.ReactElement | null;
 
@@ -111,7 +111,7 @@ const isVisible = (slice: [number, number], index: number) => {
   return index >= slice[0] && index < slice[1];
 };
 
-export const SelectDropdown: SelectDropdown = (props) => {
+export const SelectDropdown: SelectDropdownComponent = (props) => {
   const {
     controlRef,
     size,

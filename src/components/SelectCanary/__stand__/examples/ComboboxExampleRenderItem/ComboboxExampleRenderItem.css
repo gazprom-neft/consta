@@ -1,0 +1,40 @@
+.ComboboxExampleRenderItem {
+  &-Item {
+    --text-color: var(--color-control-typo-default);
+    position: relative;
+    padding: var(--space-xs) var(--space-l);
+    color: var(--text-color);
+
+    &_hovered {
+      background-color: var(--color-control-bg-clear-hover);
+    }
+
+    &_active {
+      --text-color: var(--color-control-typo-secondary);
+    }
+
+    &_disabled {
+      --text-color: var(--color-control-typo-disable);
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: calc(50% - 6px);
+      left: 6px;
+      width: 8px;
+      height: 8px;
+      background-color: var(--color-control-typo-disable);
+      border-radius: 50%;
+      transition: background-color 0.2s ease-in;
+    }
+
+    &_active::before {
+      background-color: var(--text-color);
+    }
+  }
+
+  &-Badge {
+    margin-left: var(--space-m);
+  }
+}

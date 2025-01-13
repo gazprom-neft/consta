@@ -1,6 +1,6 @@
 import { IconPhoto } from '@consta/icons/IconPhoto';
 import { useBoolean, useNumber, useSelect, useText } from '@consta/stand';
-import React from 'react';
+import React, { useState } from 'react';
 
 import {
   fieldPropForm,
@@ -96,8 +96,24 @@ const Variants = () => {
   const leftSide = leftSideType && leftSideSelect[leftSideType];
   const rightSide = rightSideType && rightSideSelect[rightSideType];
 
+  const [value, setValue] = useState<string[] | null>(null);
+  const [stringValue, setStringValue] = useState<string | null>(null);
+
+  const onChange = (value: string[] | null) => {
+    setStringValue(null);
+    setValue(value);
+  };
+
   return (
     <TextField
+      {...(type === 'textarray'
+        ? {
+            value,
+            inputValue: stringValue,
+            onInputChange: setStringValue,
+            onChange,
+          }
+        : {})}
       id="inputId"
       form={form}
       status={status}
