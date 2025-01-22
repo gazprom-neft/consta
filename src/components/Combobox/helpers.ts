@@ -115,6 +115,7 @@ export type ComboboxProps<
     onDropdownOpen?: (isOpen: boolean) => void;
     dropdownOpen?: boolean;
     ignoreOutsideClicksRefs?: ReadonlyArray<React.RefObject<HTMLElement>>;
+    searchDebounceDelay?: number;
   },
   HTMLDivElement
 > &

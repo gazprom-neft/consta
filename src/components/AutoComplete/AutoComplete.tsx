@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { PropRenderItem } from '##/components/Select';
 import { SelectDropdown } from '##/components/SelectComponents/SelectDropdown';
@@ -12,6 +12,7 @@ import {
   TextField,
   TextFieldPropOnChange,
 } from '##/components/TextField/TextField';
+import { useDebounce } from '##/hooks/useDebounce';
 import { useForkRef } from '##/hooks/useForkRef';
 import { useMutableRef } from '##/hooks/useMutableRef';
 import { cn } from '##/utils/bem';
@@ -72,8 +73,11 @@ const AutoCompleteRender = <
     onDropdownOpen,
     dropdownOpen,
     ignoreOutsideClicksRefs,
+    searchDebounceDelay,
     ...otherProps
   } = withDefaultGetters(props);
+
+  const [searchValue, setSearchValue] = useState('');
 
   const onChangeRef = useMutableRef(onChange);
 
@@ -90,11 +94,31 @@ const AutoCompleteRender = <
     [id, name],
   );
 
-  const handleInputChange: TextFieldPropOnChange = useCallback(
+  const onResolveValue: TextFieldPropOnChange = useCallback(
     (value, { id, name, e }) => {
+      console.log('here resolve');
       onChangeRef.current?.(value, { id: id?.toString(), name, e });
     },
     [],
+  );
+
+  const onDebouncedChange = useDebounce(
+    onResolveValue,
+    searchDebounceDelay ?? 300,
+  );
+
+  const handleInputChange: TextFieldPropOnChange = useCallback(
+    (value, { id, name, e }) => {
+      if (searchDebounceDelay) {
+        console.log('debounce change');
+        setSearchValue(value ?? '');
+        onDebouncedChange(value, { id, name, e });
+      } else {
+        console.log('default change');
+        onResolveValue(value, { id, name, e });
+      }
+    },
+    [searchDebounceDelay, onResolveValue],
   );
 
   const {
@@ -146,6 +170,10 @@ const AutoCompleteRender = <
     );
   };
 
+  useEffect(() => {
+    setSearchValue(value ?? '');
+  }, [value]);
+
   return (
     <>
       <TextField
@@ -162,7 +190,7 @@ const AutoCompleteRender = <
         inputContainerRef={useForkRef([containerRef, inputContainerRef])}
         onClick={handleInputFocus}
         onChange={handleInputChange}
-        value={value}
+        value={searchDebounceDelay ? searchValue : value}
         style={style}
         size={size}
         {...otherProps}

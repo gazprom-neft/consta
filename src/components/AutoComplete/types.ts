@@ -64,6 +64,7 @@ export type AutoCompleteProps<
   onDropdownOpen?: (isOpen: boolean) => void;
   dropdownOpen?: boolean;
   ignoreOutsideClicksRefs?: ReadonlyArray<React.RefObject<HTMLElement>>;
+  searchDebounceDelay?: number;
 } & Omit<
   TextFieldProps<TYPE>,
   'max' | 'min' | 'step' | 'incrementButtons' | 'onChange' | 'width'

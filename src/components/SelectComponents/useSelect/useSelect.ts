@@ -75,6 +75,7 @@ export type SelectProps<ITEM, GROUP, MULTIPLE extends boolean> = {
   onBlur?: React.FocusEventHandler<HTMLInputElement>;
   multiple: boolean;
   searchValue?: string;
+  searchDebounceDelay?: number;
   onChange: OnChangeProp<ITEM, MULTIPLE>;
   value: ValueProp<ITEM, MULTIPLE>;
   dropdownOpen?: boolean;
@@ -168,6 +169,7 @@ export function useSelect<ITEM, GROUP, MULTIPLE extends boolean>(
     onFocus,
     onBlur,
     searchValue: searchValueProp,
+    searchDebounceDelay,
     onDropdownOpen,
     onSearchValueChange,
     dropdownOpen,
@@ -343,7 +345,7 @@ export function useSelect<ITEM, GROUP, MULTIPLE extends boolean>(
         resolvedSearchValue: value,
       };
     }, actions.setSearch);
-  }, 300);
+  }, searchDebounceDelay ?? 300);
 
   const setSearch = useCallback(
     (value: string | undefined) => {

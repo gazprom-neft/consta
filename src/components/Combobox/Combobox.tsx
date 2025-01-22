@@ -100,6 +100,7 @@ const ComboboxRender = <
     onSearchValueChange,
     dropdownOpen,
     ignoreOutsideClicksRefs,
+    searchDebounceDelay,
     ...otherProps
   } = usePropsHandler(COMPONENT_NAME, withDefaultGetters(props), controlRef);
 
@@ -146,6 +147,7 @@ const ComboboxRender = <
     onSearchValueChange,
     dropdownOpen,
     ignoreOutsideClicksRefs,
+    searchDebounceDelay,
   });
 
   const inputId = id ? `${id}-input` : id;

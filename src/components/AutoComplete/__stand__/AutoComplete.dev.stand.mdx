@@ -21,6 +21,7 @@ import {
   AutoCompleteExampleIsLoading,
   AutoCompleteExampleOnScrollBottom,
 } from './examples/AutoCompleteExampleIsLoading/AutoCompleteExampleIsLoading';
+import { AutoCompleteExampleDebounce } from './examples/AutoCompleteExampleDebounce/AutoCompleteExampleDebounce';
 import { MdxMenu } from '@consta/stand';
 
 ```tsx
@@ -44,6 +45,7 @@ import { AutoComplete } from '@consta/uikit/AutoComplete';
 - [Внешний вид](#внешний-вид)
 - [Виртуализация списка](#виртуализация-списка)
 - [Индикация загрузки](#индикация-загрузки)
+- [Дебаунсинг](#дебаунсинг)
 - [Неактивный выпадающий список](#неактивный-выпадающий-список)
 - [Управление состоянием выпадающего списка](#управление-состоянием-выпадающего-списка)
 - [Кастомизация](#кастомизация)
@@ -894,6 +896,55 @@ export const AutoCompleteExampleOnScrollBottom = () => {
 
 <AutoCompleteExampleOnScrollBottom />
 
+## Дебаунсинг
+
+Для добавления задержки между вводом пользователя и выполнением поискового запроса необходимо установить значения для свойства `searchDebounceDelay`.
+
+Это помогает оптимизировать компонент, предотвращая чрезмерные вызовы функции `onChange`, особенно когда данные загружаются динамически с сервера.
+По умолчанию значение для данного свойства равно `300`.
+
+```tsx
+import React, { useState } from 'react';
+
+import { AutoComplete } from '@consta/uikit/AutoComplete';
+
+type Item = {
+  label: string;
+  id: number;
+};
+
+const items: Item[] = [
+  {
+    label: 'Первый',
+    id: 1,
+  },
+  {
+    label: 'Второй',
+    id: 2,
+  },
+  {
+    label: 'Третий',
+    id: 3,
+  },
+];
+const AutoCompleteExampleView = () => {
+  const [value, setValue] = useState<string | null>(null);
+  return (
+    <AutoComplete
+      value={value}
+      items={items}
+      getItemKey={(item) => item}
+      getItemLabel={(item) => item}
+      onChange={setValue}
+      type="text"
+      searchDebounceDelay={1000}
+    />
+  );
+};
+```
+
+<AutoCompleteExampleDebounce />
+
 ## Неактивный выпадающий список
 
 Чтобы сделать весь комбобокс неактивным, добавьте `disabled`.
@@ -1201,6 +1252,7 @@ type AutoCompletePropOnChange = (
 | [`required?`](##LIBS.LIB.STAND/lib:uikit/stand:components-textfield-stable/hash:обязательность)                 | `boolean`                                                                                                                                                           | -                                                                                    | Нужно заполнить                                                                                                                              |
 | `tabIndex?`                                                                                                     | `number`                                                                                                                                                            | -                                                                                    | Порядковый номер при переходе между элементами интерфейса по клавише **tab**                                                                 |
 | [`autoFocus?`](##LIBS.LIB.STAND/lib:uikit/stand:components-textfield-stable/hash:фокус)                         | `boolean`                                                                                                                                                           | -                                                                                    | Перемещает фокус в поле                                                                                                                      |
+| `searchDebounceDelay?`                                                                                          | `number`                                                                                                                                                            | -                                                                                    | Время задержки в миллисекундах между вводом пользователя и выполнением поискового запроса                                                    |
 | `onFocus?`                                                                                                      | `React.FocusEventHandler<HTMLElement>`                                                                                                                              | -                                                                                    | Действие по фокусу                                                                                                                           |
 | `onBlur?`                                                                                                       | `React.FocusEventHandler<HTMLElement>`                                                                                                                              | -                                                                                    | Действие при потере фокуса                                                                                                                   |
 | `autoComplete?`                                                                                                 | [`AutoCompete`](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)                                                                          | -                                                                                    | Автозаполнение поля ввода — аналог HTML-атрибута [`autocomplete`](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete) |
