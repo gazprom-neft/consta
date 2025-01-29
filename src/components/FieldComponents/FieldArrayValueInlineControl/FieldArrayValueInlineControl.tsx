@@ -70,6 +70,7 @@ const FieldArrayValueInlineControlRender = (
     onPaste,
     onPasteCapture,
     onWheel,
+    disableInput,
     ...otherProps
   } = props;
 
@@ -106,7 +107,9 @@ const FieldArrayValueInlineControlRender = (
     >
       {renderValue(value)}
       <input
-        className={cnFieldArrayValueInlineControl('Input')}
+        className={cnFieldArrayValueInlineControl('Input', {
+          disabled: disableInput,
+        })}
         onChange={handleChange}
         ref={useForkRef([inputRef, inputRefProp])}
         maxLength={inputMaxLength}
@@ -131,6 +134,7 @@ const FieldArrayValueInlineControlRender = (
         onPasteCapture={onPasteCapture}
         onWheel={onWheel}
         defaultValue={inputDefaultValue}
+        readOnly={disableInput}
       />
       <div
         ref={fakeInputRef}

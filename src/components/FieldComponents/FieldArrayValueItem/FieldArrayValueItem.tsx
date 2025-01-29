@@ -34,6 +34,7 @@ export const FieldArrayValueItem: React.FC<FieldArrayValueItemProps> =
         size={size}
         cancelButtonTabIndex={-1}
         view="filled"
+        disabled={disabled}
       />
     );
   });

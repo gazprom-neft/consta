@@ -13,13 +13,8 @@
   }
 
   &_disabled {
-    background-color: var(--color-control-bg-disable);
     text-overflow: ellipsis;
     white-space: nowrap;
     display: inline-block;
-
-    & > * {
-      color: var(--color-control-typo-disable);
-    }
   }
 }

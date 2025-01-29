@@ -23,9 +23,9 @@ export type SelectItemProps = PropsWithHTMLAttributes<
 >;
 
 export const sizeCheckboxMap: Record<PropSize, CheckboxPropSize> = {
-  xs: 'm',
-  s: 'm',
-  m: 'l',
+  xs: 's',
+  s: 's',
+  m: 'm',
   l: 'l',
 };
 

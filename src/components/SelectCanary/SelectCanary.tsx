@@ -1,20 +1,20 @@
 import React, { forwardRef } from 'react';
 
 import {
-  ComboboxComponent,
-  ComboboxGroupDefault,
-  ComboboxItemDefault,
-  ComboboxProps,
+  SelectComponent,
+  SelectGroupDefault,
+  SelectItemDefault,
+  SelectProps,
 } from '.';
 import { SelectMultiple } from './SelectMultiple';
 import { SelectSingle } from './SelectSingle';
 
-const ComboboxRender = <
-  ITEM = ComboboxItemDefault,
-  GROUP = ComboboxGroupDefault,
+const SelectRender = <
+  ITEM = SelectItemDefault,
+  GROUP = SelectGroupDefault,
   MULTIPLE extends boolean = false,
 >(
-  props: ComboboxProps<ITEM, GROUP, MULTIPLE>,
+  props: SelectProps<ITEM, GROUP, MULTIPLE>,
   ref: React.Ref<HTMLDivElement>,
 ) => {
   const Component = props.multiple ? SelectMultiple : SelectSingle;
@@ -22,4 +22,4 @@ const ComboboxRender = <
   return <Component ref={ref} {...props} />;
 };
 
-export const Combobox = forwardRef(ComboboxRender) as ComboboxComponent;
+export const Select = forwardRef(SelectRender) as SelectComponent;

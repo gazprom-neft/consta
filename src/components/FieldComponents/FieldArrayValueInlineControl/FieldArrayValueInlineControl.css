@@ -8,6 +8,8 @@
     )
     0;
 
+  min-height: var(--field-control-layout-slot-height);
+
   &-Input {
     display: block;
     flex: 1;
@@ -27,6 +29,10 @@
     font-size: var(--field-control-layout-text-size);
     line-height: 1;
     line-height: var(--field-array-value-inline-control-input-height);
+
+    &_disabled {
+      display: none;
+    }
 
     &:-webkit-autofill,
     &:-webkit-autofill:hover,

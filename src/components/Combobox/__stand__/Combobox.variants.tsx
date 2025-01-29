@@ -49,7 +49,7 @@ const Variants = () => {
   const withLabelIcon = useBoolean('withLabelIcon', false);
 
   const [value, setValue] = useState<Item | null>(null);
-  const [valueMultiple, setValueMultiple] = useState<Item[] | null>(null);
+  const [valueMultiple, setValueMultiple] = useState<Item[] | null>([items[0]]);
 
   if (multiple) {
     return (

@@ -180,13 +180,10 @@ export function useSelect<ITEM, GROUP, MULTIPLE extends boolean>(
 
   const [isFocused, setIsFocused] = useState(false);
 
-  const value = useMemo(
-    () =>
-      (params.value &&
-        (Array.isArray(params.value) ? params.value : [params.value])) ||
-      [],
-    [params.value],
-  );
+  const value =
+    (params.value &&
+      (Array.isArray(params.value) ? params.value : [params.value])) ||
+    [];
 
   const [
     {
@@ -411,11 +408,12 @@ export function useSelect<ITEM, GROUP, MULTIPLE extends boolean>(
   const removeValue = (e: React.SyntheticEvent, valueItem: ITEM) => {
     e.stopPropagation();
     if (isMultipleParams(params)) {
-      const newValue = params.value?.filter(
-        (item) => getItemKey(item) !== getItemKey(valueItem),
-      );
-      const val = newValue?.length ? newValue : null;
-      params.onChange(val, {
+      const newValue = params.value?.filter((item) => {
+        return getItemDisabled?.(item)
+          ? true
+          : getItemKey(item) !== getItemKey(valueItem);
+      });
+      params.onChange(newValue?.length ? newValue : null, {
         e,
       });
     }

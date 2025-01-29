@@ -14,7 +14,7 @@ import {
 } from '##/components/FieldComponents/__mocks__/variants';
 import { cn } from '##/utils/bem';
 
-import { Combobox, ComboboxPropOnCreate } from '..';
+import { Select, SelectPropOnCreate } from '..';
 import { groups, Item, items } from '../__mocks__/data.mock';
 
 const getUndefined = () => undefined;
@@ -48,16 +48,16 @@ const Variants = () => {
   // const selectAll = useBoolean('selectAll', false, multiple);
   // const allSelectedAllLabel = useText('allSelectedAllLabel', 'Все', multiple);
 
-  const [value, setValue] = useState<Item | null>(null);
-  const [valueMultiple, setValueMultiple] = useState<Item[] | null>(null);
-  const onCreate: ComboboxPropOnCreate | undefined = withCreateButton
+  const [value, setValue] = useState<Item | null>();
+  const [valueMultiple, setValueMultiple] = useState<Item[] | null>([items[0]]);
+  const onCreate: SelectPropOnCreate | undefined = withCreateButton
     ? (label) => alert(label ? `Создание "${label}"` : 'Создание элемента')
     : undefined;
 
   if (multiple) {
     return (
       <div className={cnSelectCanaryVariants()}>
-        <Combobox
+        <Select
           key="multiple"
           size={size}
           disabled={disabled}
@@ -84,7 +84,7 @@ const Variants = () => {
   }
   return (
     <div className={cnSelectCanaryVariants()}>
-      <Combobox
+      <Select
         key="not-multiple"
         size={size}
         disabled={disabled}

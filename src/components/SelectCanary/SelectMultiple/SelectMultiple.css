@@ -1,6 +1,6 @@
 .canary--SelectMultiple {
-  --select-value-offset: 0px;
-  &_withValue {
+  --select-value-offset: var(--field-control-layout-space);
+  &_withClearButton {
     --select-value-offset: calc(
       var(--field-control-layout-right-slot-content-width-0) +
         var(--field-control-layout-space) * 2

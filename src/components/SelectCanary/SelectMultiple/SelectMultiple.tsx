@@ -1,6 +1,6 @@
 import './SelectMultiple.css';
 
-import React, { forwardRef, useCallback, useMemo, useRef } from 'react';
+import React, { forwardRef, useCallback, useRef } from 'react';
 
 import {
   FieldArrayValueInlineControl,
@@ -20,22 +20,23 @@ import { cnMixScrollBar } from '##/mixs/MixScrollBar';
 import { cnCanary as cn } from '##/utils/bem';
 
 import {
-  ComboboxComponent,
-  ComboboxGroupDefault,
-  ComboboxItemDefault,
-  ComboboxPropRenderItem,
-  ComboboxPropRenderValue,
-  ComboboxProps,
+  SelectComponent,
+  SelectGroupDefault,
+  SelectItemDefault,
+  SelectPropRenderItem,
+  SelectPropRenderValue,
+  SelectProps,
 } from '..';
 import { withDefaultGetters } from '../helpers';
+import { sortValue } from '../sortValue';
 
 const cnSelectMultiple = cn('SelectMultiple');
 
 const SelectMultipleRender = <
-  ITEM = ComboboxItemDefault,
-  GROUP = ComboboxGroupDefault,
+  ITEM = SelectItemDefault,
+  GROUP = SelectGroupDefault,
 >(
-  props: ComboboxProps<ITEM, GROUP, true>,
+  props: SelectProps<ITEM, GROUP, true>,
   ref: React.Ref<HTMLDivElement>,
 ) => {
   const {
@@ -44,7 +45,7 @@ const SelectMultipleRender = <
     size = 'm',
     disabled,
     multiple = false,
-    value,
+    value: valueProp,
     getItemLabel,
     renderValue,
     items,
@@ -54,7 +55,7 @@ const SelectMultipleRender = <
     getItemGroupKey,
     getGroupKey,
     onFocus,
-    searchFunction,
+    search,
     isLoading,
     onDropdownOpen,
     dropdownOpen,
@@ -79,50 +80,12 @@ const SelectMultipleRender = <
     className,
     placeholder,
     view,
+    clearButton,
   } = withDefaultGetters(props);
 
   const dropdownRef = useRef<HTMLDivElement>(null);
   const controlRef = useRef<HTMLDivElement>(null);
-
-  const mutableRefs = useMutableRef([
-    getItemLabel,
-    size,
-    dropdownForm,
-    getItemDisabled,
-  ] as const);
-
-  const renderValueDefault: ComboboxPropRenderValue<ITEM, true> = (value) =>
-    value.map((item) => {
-      return (
-        <FieldArrayValueItem
-          key={getItemKey(item)}
-          size={size}
-          label={getItemLabel(item)}
-          disabled={disabled}
-          onRemove={() => {}}
-        />
-      );
-    });
-
-  const renderItemDefault: ComboboxPropRenderItem<ITEM> = useCallback(
-    ({ item, active, hovered, onClick, onMouseEnter, ref }) => {
-      return (
-        <SelectItem
-          label={mutableRefs.current[0](item)}
-          active={active}
-          hovered={hovered}
-          size={mutableRefs.current[1]}
-          indent={mutableRefs.current[2] === 'round' ? 'increased' : 'normal'}
-          onClick={onClick}
-          onMouseEnter={onMouseEnter}
-          disabled={mutableRefs.current[3](item)}
-          ref={ref}
-          multiple
-        />
-      );
-    },
-    [],
-  );
+  const value = sortValue(valueProp, getItemDisabled);
 
   const {
     getOptionProps,
@@ -140,6 +103,7 @@ const SelectMultipleRender = <
     notFound,
     hasItems,
     optionsRefs,
+    getHandleRemoveValue,
   } = useSelect<ITEM, GROUP, true>({
     items,
     groups,
@@ -159,12 +123,70 @@ const SelectMultipleRender = <
     onBlur,
     onFocus,
     onCreate,
-    searchFunction,
+    search,
     onDropdownOpen,
     onSearchValueChange,
     dropdownOpen,
     ignoreOutsideClicksRefs,
+    clearButton,
   });
+
+  const mutableRefs = useMutableRef([
+    getItemLabel,
+    size,
+    dropdownForm,
+    getItemDisabled,
+    getItemKey,
+    disabled,
+    renderValue,
+    getHandleRemoveValue,
+  ] as const);
+
+  const renderValueDefault: SelectPropRenderValue<ITEM, true> = useCallback(
+    ({ value, getRemove }) =>
+      value.map((item) => {
+        const disabled = mutableRefs.current[5] || mutableRefs.current[3](item);
+        return (
+          <FieldArrayValueItem
+            key={mutableRefs.current[4](item)}
+            size={mutableRefs.current[1]}
+            label={mutableRefs.current[0](item)}
+            disabled={disabled}
+            onRemove={disabled ? undefined : getRemove(item)}
+          />
+        );
+      }),
+    [],
+  );
+
+  const renderItemDefault: SelectPropRenderItem<ITEM> = useCallback(
+    ({ item, active, hovered, onClick, onMouseEnter, ref }) => {
+      return (
+        <SelectItem
+          label={mutableRefs.current[0](item)}
+          active={active}
+          hovered={hovered}
+          size={mutableRefs.current[1]}
+          indent={mutableRefs.current[2] === 'round' ? 'increased' : 'normal'}
+          onClick={onClick}
+          onMouseEnter={onMouseEnter}
+          disabled={mutableRefs.current[3](item)}
+          ref={ref}
+          multiple
+        />
+      );
+    },
+    [],
+  );
+
+  const inlineControlRender = useCallback(
+    (value: ITEM[]) =>
+      (mutableRefs.current[6] || renderValueDefault)({
+        value,
+        getRemove: mutableRefs.current[7],
+      }),
+    [],
+  );
 
   return (
     <>
@@ -172,7 +194,9 @@ const SelectMultipleRender = <
         style={style}
         ref={useForkRef([ref, controlRef])}
         className={cnSelectMultiple(
-          { withValue: !!value?.length || !!searchValue },
+          {
+            withClearButton: clearButton && (!!value?.length || !!searchValue),
+          },
           [className],
         )}
         form={form}
@@ -199,8 +223,9 @@ const SelectMultipleRender = <
           value={value || undefined}
           disabled={disabled}
           placeholder={placeholder}
-          renderValue={renderValue || renderValueDefault}
+          renderValue={inlineControlRender}
           size={size}
+          disableInput={search ? undefined : true}
         />
       </FieldSelectControlLayout>
       <SelectDropdown
@@ -235,4 +260,4 @@ const SelectMultipleRender = <
 
 export const SelectMultiple = forwardRef(
   SelectMultipleRender,
-) as ComboboxComponent;
+) as SelectComponent;

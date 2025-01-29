@@ -27,6 +27,7 @@ export const items: Item[] = [
     label: 'Синий',
     groupId: 1,
     id: 3,
+    disabled: true,
   },
   {
     label: 'Красный',
@@ -37,6 +38,7 @@ export const items: Item[] = [
     label: 'Сине-зелёный',
     groupId: 2,
     id: 5,
+    disabled: true,
   },
   {
     label: 'Красно-коричневый',

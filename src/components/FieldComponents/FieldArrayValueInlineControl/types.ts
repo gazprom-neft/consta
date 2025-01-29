@@ -28,6 +28,7 @@ export type FieldArrayValueInlineControlProps<ITEM> =
       placeholder?: string;
       size?: FieldPropSize;
       onWheel?: React.WheelEventHandler<HTMLInputElement>;
+      disableInput?: boolean;
     },
     HTMLDivElement
   >;

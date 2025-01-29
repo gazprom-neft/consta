@@ -16,22 +16,22 @@ import { useMutableRef } from '##/hooks/useMutableRef';
 import { cnCanary as cn } from '##/utils/bem';
 
 import {
-  ComboboxComponent,
-  ComboboxGroupDefault,
-  ComboboxItemDefault,
-  ComboboxPropRenderItem,
-  ComboboxPropRenderValue,
-  ComboboxProps,
+  SelectComponent,
+  SelectGroupDefault,
+  SelectItemDefault,
+  SelectPropRenderItem,
+  SelectPropRenderValue,
+  SelectProps,
 } from '..';
 import { withDefaultGetters } from '../helpers';
 
 const cnSelectSingle = cn('SelectSelectSingleMultiple');
 
 const SelectSingleRender = <
-  ITEM = ComboboxItemDefault,
-  GROUP = ComboboxGroupDefault,
+  ITEM = SelectItemDefault,
+  GROUP = SelectGroupDefault,
 >(
-  props: ComboboxProps<ITEM, GROUP, false>,
+  props: SelectProps<ITEM, GROUP, false>,
   ref: React.Ref<HTMLDivElement>,
 ) => {
   const {
@@ -88,12 +88,12 @@ const SelectSingleRender = <
     getItemDisabled,
   ] as const);
 
-  const renderValueDefault: ComboboxPropRenderValue<ITEM, false> = useCallback(
-    (value) => mutableRefs.current[0](value),
+  const renderValueDefault: SelectPropRenderValue<ITEM, false> = useCallback(
+    ({ value }) => mutableRefs.current[0](value),
     [],
   );
 
-  const renderItemDefault: ComboboxPropRenderItem<ITEM> = useCallback(
+  const renderItemDefault: SelectPropRenderItem<ITEM> = useCallback(
     ({ item, active, hovered, onClick, onMouseEnter, ref }) => {
       return (
         <SelectItem
@@ -183,7 +183,7 @@ const SelectSingleRender = <
           disabled={disabled}
           placeholder={placeholder}
         >
-          {value && (renderValue || renderValueDefault)(value)}
+          {value && (renderValue || renderValueDefault)({ value })}
         </FieldSelectInput>
       </FieldSelectControlLayout>
       <SelectDropdown
@@ -216,4 +216,4 @@ const SelectSingleRender = <
   );
 };
 
-export const SelectSingle = forwardRef(SelectSingleRender) as ComboboxComponent;
+export const SelectSingle = forwardRef(SelectSingleRender) as SelectComponent;
