@@ -1,6 +1,6 @@
 import './SelectMultiple.css';
 
-import React, { forwardRef, useCallback, useRef } from 'react';
+import React, { forwardRef, useCallback, useEffect, useRef } from 'react';
 
 import {
   FieldArrayValueInlineControl,
@@ -14,6 +14,7 @@ import {
 import { SelectDropdown } from '##/components/SelectComponentsCanary/SelectDropdown';
 import { SelectItem } from '##/components/SelectComponentsCanary/SelectItem';
 import { useSelect } from '##/components/SelectComponentsCanary/useSelect';
+import { useComponentSize } from '##/hooks/useComponentSize';
 import { useForkRef } from '##/hooks/useForkRef';
 import { useMutableRef } from '##/hooks/useMutableRef';
 import { cnMixScrollBar } from '##/mixs/MixScrollBar';
@@ -85,6 +86,7 @@ const SelectMultipleRender = <
 
   const dropdownRef = useRef<HTMLDivElement>(null);
   const controlRef = useRef<HTMLDivElement>(null);
+  const valueContainerRef = useRef<HTMLDivElement>(null);
   const value = sortValue(valueProp, getItemDisabled);
 
   const {
@@ -188,6 +190,14 @@ const SelectMultipleRender = <
     [],
   );
 
+  useEffect(() => {
+    if (valueContainerRef.current && isFocused) {
+      valueContainerRef.current.scrollTo({
+        top: valueContainerRef.current.scrollHeight,
+      });
+    }
+  }, [value?.length, searchValue.length]);
+
   return (
     <>
       <FieldSelectControlLayout
@@ -217,7 +227,6 @@ const SelectMultipleRender = <
           ])}
           onFocus={handleInputFocus}
           onBlur={handleInputBlur}
-          ref={inputRef}
           onClick={handleInputClick}
           onChange={handleInputChange}
           value={value || undefined}
@@ -226,6 +235,8 @@ const SelectMultipleRender = <
           renderValue={inlineControlRender}
           size={size}
           disableInput={search ? undefined : true}
+          inputRef={inputRef}
+          ref={valueContainerRef}
         />
       </FieldSelectControlLayout>
       <SelectDropdown

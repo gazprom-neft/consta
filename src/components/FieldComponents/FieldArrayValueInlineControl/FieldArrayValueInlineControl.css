@@ -31,7 +31,8 @@
     line-height: var(--field-array-value-inline-control-input-height);
 
     &_disabled {
-      display: none;
+      opacity: 0;
+      position: absolute;
     }
 
     &:-webkit-autofill,

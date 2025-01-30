@@ -489,9 +489,7 @@ export function useSelect<ITEM, GROUP, MULTIPLE extends boolean>(
   const handleInputClick = (): void => {
     !disabled && setOpen(!isOpen);
 
-    if (multiple) {
-      inputRef.current?.focus();
-    }
+    inputRef.current?.focus();
   };
 
   const clearValue =
@@ -679,7 +677,6 @@ export function useSelect<ITEM, GROUP, MULTIPLE extends boolean>(
     keys: keys as unknown as KeyHandlers,
     ref: inputRef,
     isActive: !disabled,
-    // eventHandler: (e) => console.log(e),
   });
 
   useClickOutside({
