@@ -52,6 +52,7 @@ const TabsRender = (props: TabsProps, ref: React.Ref<HTMLDivElement>) => {
     getItemAttributes,
     getItemRef,
     getItemLabel,
+    getItemKey,
     onChange,
     iconSize,
     renderItem: renderItemProp = renderItemDefault,
@@ -66,7 +67,7 @@ const TabsRender = (props: TabsProps, ref: React.Ref<HTMLDivElement>) => {
 
   const { getOnChange, getChecked } = useChoiceGroup({
     value: value || null,
-    getKey: getItemLabel,
+    getKey: getItemKey,
     callBack: onChange,
     multiple: false,
   });
@@ -131,7 +132,7 @@ const TabsRender = (props: TabsProps, ref: React.Ref<HTMLDivElement>) => {
       {items.map((item, idx) => (
         <div
           ref={tabRefs[idx]}
-          key={getItemLabel(item)}
+          key={getItemKey(item)}
           className={cnTabs('Tab', { direction: tabsDirection }, [
             getTabClassName?.(idx),
           ])}
@@ -171,7 +172,7 @@ const TabsRender = (props: TabsProps, ref: React.Ref<HTMLDivElement>) => {
         tabsDimensions={tabsDimensions}
         renderItem={renderItem}
         renderItemsList={renderItemsList}
-        getItemLabel={getItemLabel}
+        getItemKey={getItemKey}
         getItemChecked={getChecked}
         items={items}
         size={size}

@@ -7,11 +7,11 @@
 .Badge {
   --badge-bg-color-var: var(--badge-bg-color-prop, var(--badge-bg-color));
   --badge-text-color-var: var(--badge-text-color-prop, var(--badge-text-color));
-  --badge-border-color-var: var(
-    --badge-border-color-prop,
-    var(--badge-border-color)
-  );
-
+  --badge-border-color-var:
+    var(
+      --badge-border-color-prop,
+      var(--badge-border-color)
+    );
   display: inline-flex;
   align-items: center;
   box-sizing: border-box;
@@ -48,11 +48,12 @@
     }
 
     &_tinted {
-      background: color-mix(
-        in srgb,
-        var(--badge-bg-color-var) var(--badge-degree-mixing),
-        var(--color-bg-default)
-      );
+      background:
+        color-mix(
+          in srgb,
+          var(--badge-bg-color-var) var(--badge-degree-mixing),
+          var(--color-bg-default)
+        );
     }
   }
 

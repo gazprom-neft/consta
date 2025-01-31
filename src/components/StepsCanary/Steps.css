@@ -1,10 +1,9 @@
-/* 
---steps-item-max-width-prop - свойство для того чтобы переопределить максимальную ширину Steps-Item 
+/*
+--steps-item-max-width-prop - свойство для того чтобы переопределить максимальную ширину Steps-Item
 */
 
 .canary--Steps {
   --steps-item-width: var(--steps-item-width-prop, auto);
-
   display: flex;
   align-items: center;
   width: max-content;
@@ -29,12 +28,13 @@
   }
 
   &-List {
-    flex: 1;
     display: grid;
     overflow-x: scroll;
     overflow-y: visible;
+    flex: 1;
     gap: var(--space-xs) var(--steps-list-gap);
-    grid-template: auto auto / repeat(
+    grid-template:
+      auto auto / repeat(
         var(--steps-items-length),
         var(--steps-item-width)
       );
@@ -47,6 +47,7 @@
 
   &-ScrollButton {
     flex: none;
+
     &_position {
       &_right .Button-Icon {
         transform: rotate(180deg);

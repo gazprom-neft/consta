@@ -51,6 +51,7 @@ import { Tabs } from '@consta/uikit/Tabs';
 
 ```tsx
 type TabsItemDefault = {
+  id: string;
   label: string | number;
   leftIcon?: IconComponent;
   rightIcon?: IconComponent;
@@ -566,7 +567,8 @@ export type RenderItem<ITEM> = (
 | ---------------------------------------------- | ---------------------------------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `items`                                        | `ITEM[]`                           | -            | Массив элементов с данными для табов (текст, иконка)                                                                                                                                 |
 | `value`                                        | `ITEM`, `null`                     | -            | Значение                                                                                                                                                                             |
-| [`getItemLabel?`](#текст-для-таба)             | `TabsPropGetItemLabel`             | -            | Функция для формирования текста таба. Используется в качестве уникального ключа элемента                                                                                             |
+| `getItemKey`                                   | `TabsPropGetItemKey`               | -            | Используется в качестве уникального ключа элемента                                                                                                                                   |
+| [`getItemLabel?`](#текст-для-таба)             | `TabsPropGetItemLabel`             | -            | Функция для формирования текста таба                                                                                                                                                 |
 | [`getItemLeftIcon?`](#иконки)                  | `TabsPropGetItemLeftIcon`          | -            | Функция для формирования иконки слева                                                                                                                                                |
 | [`getItemRightIcon?`](#иконки)                 | `TabsPropGetItemRightIcon`         | -            | Функция для формирования иконки справа                                                                                                                                               |
 | [`getItemLeftSide?`](#дополнительный-контент)  | `TabsPropGetItemLeftSide`          | -            | Функция для формирования дополнительного контента слева                                                                                                                              |

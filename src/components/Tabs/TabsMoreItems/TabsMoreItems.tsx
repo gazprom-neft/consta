@@ -26,7 +26,7 @@ const TabsMoreItemsRender = (
   props: TabsMoreItemsProps,
   ref: React.Ref<HTMLDivElement>,
 ) => {
-  const { items, renderItem, getItemLabel, height, size, onChange } = props;
+  const { items, renderItem, getItemKey, height, size, onChange } = props;
   const [isOpen, setIsOpen] = useFlag(false);
   const buttonRef = useRef<HTMLDivElement>(null);
   const popoverRef = useRef<HTMLDivElement>(null);
@@ -136,7 +136,7 @@ const TabsMoreItemsRender = (
             >
               {items.map((item, i) => (
                 <div
-                  key={getItemLabel(item)}
+                  key={getItemKey(item)}
                   className={cnTabsMoreItems('Item', {
                     active: highlightIndex === i,
                   })}

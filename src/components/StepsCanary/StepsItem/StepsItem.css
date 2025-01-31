@@ -4,7 +4,6 @@
   --steps-item-badge-text-color: var(--color-typo-secondary);
   --steps-item-line-color: var(--color-bg-border);
   --steps-item-cursor: pointer;
-
   display: contents;
 
   &_active {
@@ -17,6 +16,7 @@
     &_error {
       --steps-item-line-color: var(--color-bg-alert);
     }
+
     &_resolved {
       --steps-item-line-color: var(--color-control-bg-primary);
     }
@@ -38,24 +38,23 @@
   }
 
   &-Button {
-    border: none;
-    background-color: transparent;
-    text-align: left;
-    padding: 0;
-    margin: 0;
-    color: var(--steps-item-text-color);
-    cursor: var(--steps-item-cursor);
-    max-width: var(--steps-item-max-width);
     min-width: var(--steps-item-min-width);
+    max-width: var(--steps-item-max-width);
+    margin: 0;
+    padding: 0;
+    color: var(--steps-item-text-color);
+    background-color: transparent;
+    border: none;
+    text-align: left;
     text-decoration: none;
     text-indent: 0;
+    cursor: var(--steps-item-cursor);
   }
 
   &-Badge {
     /* бейджик находится в акцентной теме */
     --badge-bg-color-prop: var(--steps-item-badge-bg-color);
     --badge-text-color-prop: var(--steps-item-badge-text-color);
-
     flex: none;
     margin-top: var(--steps-item-badge-margin-top);
 
@@ -69,6 +68,7 @@
         --steps-item-badge-bg-color: var(--color-bg-alert);
         --steps-item-badge-text-color: var(--color-typo-primary);
       }
+
       &_resolved:not(.canary--StepsItem-Badge_disabled) {
         --steps-item-badge-bg-color: var(--color-control-bg-primary);
         --steps-item-badge-text-color: var(--color-typo-primary);
@@ -80,10 +80,10 @@
     white-space: nowrap;
   }
 
-  &:after {
+  &::after {
     content: '';
-    background-color: var(--steps-item-line-color);
     height: var(--space-3xs);
+    background-color: var(--steps-item-line-color);
     border-radius: 99em;
   }
 }

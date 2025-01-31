@@ -136,9 +136,11 @@ const BookmarkTabsRender = (
   const borderedIndexes = useMemo(() => {
     const arr = [...fixedTabs, ...otherTabs];
     const activeIndex = value ? arr.indexOf(value) : -1;
-    return Array.from(Array(arr.length - 1).keys()).filter((el) =>
-      form === 'round' ? el !== activeIndex && el !== activeIndex - 1 : true,
-    );
+    return Array.from(Array(arr.length).keys())
+      .slice(undefined, -1)
+      .filter((el) =>
+        form === 'round' ? el !== activeIndex && el !== activeIndex - 1 : true,
+      );
   }, [fixedTabs, otherTabs, value, form]);
 
   return (

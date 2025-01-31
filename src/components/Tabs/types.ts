@@ -44,6 +44,7 @@ export const tabsFitModes = ['scroll', 'dropdown'] as const;
 export type TabsPropFitMode = typeof tabsFitModes[number];
 export const tabsDefaultFitMode: TabsPropFitMode = 'dropdown';
 
+export type TabsPropGetItemKey<ITEM> = (item: ITEM) => string | number;
 export type TabsPropGetItemLabel<ITEM> = (item: ITEM) => string | number;
 export type TabsPropGetItemChecked<ITEM> = (item: ITEM) => boolean | undefined;
 export type TabsPropGetItemIcon<ITEM> = (
@@ -89,7 +90,7 @@ export type RenderItem<ITEM> = (
 export type TabsFitModeWrapperProps<ITEM> = {
   items: ITEM[];
   tabsDimensions: TabDimensions[];
-  getItemLabel: TabsPropGetItemLabel<ITEM>;
+  getItemKey: TabsPropGetItemKey<ITEM>;
   getItemChecked: TabsPropGetItemChecked<ITEM>;
   renderItem: (item: ITEM) => React.ReactNode;
   renderItemsList: RenderItemsListProp;
@@ -107,6 +108,7 @@ export type TabsProps<ITEM = TabsItemDefault> = PropsWithHTMLAttributesAndRef<
     iconSize?: IconPropSize;
     items: ITEM[];
     value?: ITEM | null;
+    getItemKey?: TabsPropGetItemKey<ITEM>;
     getItemLabel?: TabsPropGetItemLabel<ITEM>;
     getItemLeftIcon?: TabsPropGetItemIcon<ITEM>;
     getItemRightIcon?: TabsPropGetItemIcon<ITEM>;
@@ -184,7 +186,7 @@ export type TabsMoreItemsProps<ITEM = TabsItemDefault> =
         onClick: () => void,
         renderInDropdown?: boolean,
       ) => React.ReactNode;
-      getItemLabel: TabsPropGetItemLabel<ITEM>;
+      getItemKey: TabsPropGetItemKey<ITEM>;
       onChange: TabsPropOnChange<ITEM>;
       height: number;
       size: TabsPropSize;

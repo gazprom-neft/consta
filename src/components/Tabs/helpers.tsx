@@ -65,6 +65,7 @@ const defaultGetItemRef: TabsPropGetItemRef<TabsItemDefault> = (item) =>
 export const withDefaultGetters = (props: TabsProps) => {
   return {
     ...props,
+    getItemKey: props.getItemKey || defaultGetItemLabel,
     getItemLabel: props.getItemLabel || defaultGetItemLabel,
     getItemIcon: props.getItemIcon || defaultGetItemIcon,
     getItemLeftIcon: props.getItemLeftIcon || defaultGetItemLeftIcon,
