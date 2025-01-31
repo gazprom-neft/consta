@@ -144,6 +144,7 @@ export const SelectDropdown: SelectDropdownComponent = (props) => {
     itemsRefs,
     virtualScroll,
     onScrollToBottom,
+
     ...otherProps
   } = props;
 

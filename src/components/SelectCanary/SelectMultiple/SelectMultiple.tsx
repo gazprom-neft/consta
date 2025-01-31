@@ -106,6 +106,7 @@ const SelectMultipleRender = <
     hasItems,
     optionsRefs,
     getHandleRemoveValue,
+    allItemsSelected,
   } = useSelect<ITEM, GROUP, true>({
     items,
     groups,

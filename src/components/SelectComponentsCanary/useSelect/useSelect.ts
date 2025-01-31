@@ -1,7 +1,6 @@
 import React, {
   useCallback,
   useEffect,
-  useLayoutEffect,
   useMemo,
   useRef,
   useState,
@@ -11,7 +10,6 @@ import { useClickOutside } from '##/hooks/useClickOutside';
 import { useDebounce } from '##/hooks/useDebounce';
 import { KeyHandlers, useKeysRef } from '##/hooks/useKeysRef';
 import { useMutableRef } from '##/hooks/useMutableRef';
-import { usePrevious } from '##/hooks/usePrevious';
 import { useRefs } from '##/hooks/useRefs';
 import {
   CountedGroup,
@@ -298,30 +296,6 @@ export function useSelect<ITEM, GROUP, MULTIPLE extends boolean>(
     return false;
   }, [selectAll, multiple, value, items]);
 
-  const getSelectedOptionIndex = (): number => {
-    let index = 0;
-    if (value.length > 0) {
-      for (const group of visibleItems) {
-        if (isOptionForCreate(group)) {
-          index++;
-          // eslint-disable-next-line no-continue
-          continue;
-        }
-        for (const item of group.items) {
-          if (isOptionForSelectAll(item)) {
-            return index;
-          }
-          if (getItemKey(item) === getItemKey(value[0])) {
-            return index;
-          }
-          index++;
-        }
-      }
-    }
-
-    return 0;
-  };
-
   // Actions
 
   const setOpen = useCallback(
@@ -365,8 +339,6 @@ export function useSelect<ITEM, GROUP, MULTIPLE extends boolean>(
     [setState, setResolvedSearch],
   );
 
-  const prevIsOpen = usePrevious(isOpen);
-
   const highlightIndex = useCallback(
     (indexForHighlight: IndexForHighlight, scrollToHighlighted: boolean) => {
       setState((old) => {
@@ -393,17 +365,6 @@ export function useSelect<ITEM, GROUP, MULTIPLE extends boolean>(
     },
     [filteredOptions, setState, optionForCreate],
   );
-
-  useLayoutEffect(() => {
-    if (value !== null && !prevIsOpen && isOpen) {
-      const currentHighlightIndex = getSelectedOptionIndex();
-      if (filteredOptions.length > 0) {
-        scrollToIndex(currentHighlightIndex, dropdownRef, optionsRefs, () =>
-          highlightIndex(0, false),
-        );
-      }
-    }
-  });
 
   const removeValue = (e: React.SyntheticEvent, valueItem: ITEM) => {
     e.stopPropagation();
@@ -539,10 +500,14 @@ export function useSelect<ITEM, GROUP, MULTIPLE extends boolean>(
         SelectAllItem | OptionForCreate | ITEM | undefined,
       ] => {
         let counter = 0;
+
         for (const group of visibleItems) {
           if (isOptionForCreate(group)) {
+            if (counter === index) {
+              return [undefined, group];
+            }
             counter++;
-            return [undefined, group];
+            continue;
           }
           if (group.items.length + counter > index) {
             return [group, group.items[index - counter]];
@@ -622,7 +587,7 @@ export function useSelect<ITEM, GROUP, MULTIPLE extends boolean>(
       const getItems = (): ITEM[] => {
         for (const group of visibleItems) {
           if (isOptionForCreate(group)) {
-            break;
+            continue;
           }
           if (group.key === item.groupKey) {
             return (
@@ -673,43 +638,6 @@ export function useSelect<ITEM, GROUP, MULTIPLE extends boolean>(
     Backspace,
   };
 
-  useKeysRef({
-    keys: keys as unknown as KeyHandlers,
-    ref: inputRef,
-    isActive: !disabled,
-  });
-
-  useClickOutside({
-    isActive: isOpen,
-    ignoreClicksInsideRefs: [
-      dropdownRef,
-      controlRef,
-      ...(ignoreOutsideClicksRefs || []),
-    ],
-    handler: () => {
-      setOpen(false);
-    },
-  });
-
-  useEffect(() => {
-    if (disabled) {
-      setOpen(false);
-    }
-  }, [disabled]);
-
-  useEffect(() => {
-    const currentHighlightIndex = getSelectedOptionIndex();
-    highlightIndex(currentHighlightIndex, true);
-  }, [highlightIndex]);
-
-  useEffect(() => {
-    if (filteredOptions.length > 0 && scrollToHighlighted) {
-      scrollToIndex(highlightedIndex, dropdownRef, optionsRefs, () =>
-        highlightIndex(0, false),
-      );
-    }
-  }, [highlightedIndex]);
-
   const handleInputFocus = (e: React.FocusEvent<HTMLInputElement>): void => {
     if (!disabled) {
       if (!isFocused) {
@@ -747,6 +675,75 @@ export function useSelect<ITEM, GROUP, MULTIPLE extends boolean>(
     }
   };
 
+  useKeysRef({
+    keys: keys as unknown as KeyHandlers,
+    ref: inputRef,
+    isActive: !disabled,
+  });
+
+  useClickOutside({
+    isActive: isOpen,
+    ignoreClicksInsideRefs: [
+      dropdownRef,
+      controlRef,
+      ...(ignoreOutsideClicksRefs || []),
+    ],
+    handler: () => {
+      setOpen(false);
+    },
+  });
+
+  useEffect(() => {
+    if (disabled) {
+      setOpen(false);
+    }
+  }, [disabled]);
+
+  useEffect(() => {
+    onDropdownOpen?.(isOpen);
+
+    // активизация элемента при открытии
+    if (isOpen === true) {
+      const getSelectedOptionIndex = (): number => {
+        let index = 0;
+
+        if (value.length > 0) {
+          for (const group of visibleItems) {
+            if (isOptionForCreate(group)) {
+              index++;
+              continue;
+            }
+            for (const item of group.items) {
+              if (isOptionForSelectAll(item)) {
+                return index;
+              }
+              if (getItemKey(item) === getItemKey(value[0])) {
+                return index;
+              }
+              index++;
+            }
+          }
+        }
+
+        return 0;
+      };
+
+      const currentHighlightIndex = getSelectedOptionIndex();
+      highlightIndex(currentHighlightIndex, true);
+      scrollToIndex(highlightedIndex, dropdownRef, optionsRefs, () =>
+        highlightIndex(0, false),
+      );
+    }
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (filteredOptions.length > 0 && scrollToHighlighted) {
+      scrollToIndex(highlightedIndex, dropdownRef, optionsRefs, () =>
+        highlightIndex(0, false),
+      );
+    }
+  }, [highlightedIndex]);
+
   useEffect(() => {
     setSearch(searchValueProp);
   }, [searchValueProp]);
@@ -754,10 +751,6 @@ export function useSelect<ITEM, GROUP, MULTIPLE extends boolean>(
   useEffect(() => {
     dropdownRef.current?.scrollTo({ top: 0 });
   }, [resolvedSearchValue]);
-
-  useEffect(() => {
-    onDropdownOpen?.(isOpen);
-  }, [isOpen]);
 
   useEffect(() => {
     onSearchValueChangeRef.current?.(searchValue);

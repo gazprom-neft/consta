@@ -45,7 +45,7 @@ const Variants = () => {
   const withCreateButton = useBoolean('onCreate', false);
   const clearButton = useBoolean('clearButton', false);
   const search = useBoolean('search', false);
-  // const selectAll = useBoolean('selectAll', false, multiple);
+  const selectAll = useBoolean('selectAll', false, multiple);
   // const allSelectedAllLabel = useText('allSelectedAllLabel', 'Все', multiple);
 
   const [value, setValue] = useState<Item | null>();
@@ -62,7 +62,7 @@ const Variants = () => {
           size={size}
           disabled={disabled}
           view={view}
-          // selectAll={selectAll}
+          selectAll={selectAll}
           onCreate={onCreate}
           form={form}
           status={status}

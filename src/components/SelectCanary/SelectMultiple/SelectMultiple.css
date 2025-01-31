@@ -1,5 +1,9 @@
 .canary--SelectMultiple {
   --select-value-offset: var(--field-control-layout-space);
+  --select-max-height-var: var(
+    --select-max-height-prop,
+    calc(var(--field-control-layout-height) * 3.7)
+  );
   &_withClearButton {
     --select-value-offset: calc(
       var(--field-control-layout-right-slot-content-width-0) +
@@ -7,7 +11,7 @@
     );
   }
   &-Value.FieldArrayValueInlineControl {
-    max-height: calc(var(--field-control-layout-height) * 3.7);
+    max-height: var(--select-max-height-var);
     overflow: auto;
     width: calc(100% + var(--select-value-offset));
     padding-right: var(--select-value-offset);
